@@ -1,5 +1,11 @@
 import { SITE, SOCIALS } from "@/data/site";
 
+const SITE_URL = "https://muhammadsubhantech.vercel.app";
+
+function absoluteUrl(path: string) {
+  return new URL(path, `${SITE_URL}/`).toString();
+}
+
 export function pageHead(opts: {
   title: string;
   description: string;
@@ -19,7 +25,7 @@ export function pageHead(opts: {
           "Muhammad Subhan, Muhammad Subhan Tech, AI ML Engineer Pakistan, AI ML Engineer Karachi, Aspiring AI ML Engineer, Python, Machine Learning, Agentic AI, Data Engineering, SQL",
       },
     ],
-    links: [{ rel: "canonical", href: opts.path }],
+    links: [{ rel: "canonical", href: absoluteUrl(opts.path) }],
   };
 }
 
@@ -36,8 +42,8 @@ export function personJsonLd() {
       addressLocality: "Karachi",
       addressCountry: "PK",
     },
-    image: "/images/profile-portrait.jpg",
-    url: "/about",
+    image: absoluteUrl("/images/profile-portrait.jpg"),
+    url: absoluteUrl("/about"),
     knowsAbout: [...SITE.interests],
     sameAs: SOCIALS.map((item) => item.href),
   };
@@ -50,6 +56,7 @@ export function websiteJsonLd() {
     name: SITE.brand,
     alternateName: SITE.name,
     description: SITE.shortBio,
+    url: absoluteUrl("/"),
     inLanguage: "en",
     publisher: {
       "@type": "Person",
@@ -66,7 +73,7 @@ export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
       "@type": "ListItem",
       position: index + 1,
       name: item.name,
-      item: item.path,
+      item: absoluteUrl(item.path),
     })),
   };
 }
@@ -86,7 +93,7 @@ export function articleJsonLd(opts: {
     datePublished: opts.date,
     dateModified: opts.date,
     author: { "@type": "Person", name: SITE.name },
-    image: opts.image,
-    mainEntityOfPage: opts.path,
+    image: absoluteUrl(opts.image),
+    mainEntityOfPage: absoluteUrl(opts.path),
   };
 }

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>/about</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>/projects</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>/projects/machine-learning-lab</loc><changefreq>monthly</changefreq></url>
-  <url><loc>/projects/data-analysis-studio</loc><changefreq>monthly</changefreq></url>
-  <url><loc>/projects/python-practice-lab</loc><changefreq>monthly</changefreq></url>
-  <url><loc>/projects/cnn-projects</loc><changefreq>monthly</changefreq></url>
-  <url><loc>/projects/keras-income-model</loc><changefreq>monthly</changefreq></url>
-  <url><loc>/projects/transfer-learning-lab</loc><changefreq>monthly</changefreq></url>
-  <url><loc>/skills</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>/journey</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>/notes</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>/notes/what-is-agentic-ai</loc><changefreq>monthly</changefreq></url>
-  <url><loc>/notes/python-for-machine-learning</loc><changefreq>monthly</changefreq></url>
-  <url><loc>/notes/sql-for-data-analysis</loc><changefreq>monthly</changefreq></url>
-  <url><loc>/notes/starting-in-data-engineering</loc><changefreq>monthly</changefreq></url>
-  <url><loc>/contact</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://muhammadsubhantech.vercel.app/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://muhammadsubhantech.vercel.app/about</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://muhammadsubhantech.vercel.app/projects</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://muhammadsubhantech.vercel.app/projects/machine-learning-lab</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://muhammadsubhantech.vercel.app/projects/data-analysis-studio</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://muhammadsubhantech.vercel.app/projects/python-practice-lab</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://muhammadsubhantech.vercel.app/projects/cnn-projects</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://muhammadsubhantech.vercel.app/projects/keras-income-model</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://muhammadsubhantech.vercel.app/projects/transfer-learning-lab</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://muhammadsubhantech.vercel.app/skills</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://muhammadsubhantech.vercel.app/journey</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://muhammadsubhantech.vercel.app/notes</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://muhammadsubhantech.vercel.app/notes/what-is-agentic-ai</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://muhammadsubhantech.vercel.app/notes/python-for-machine-learning</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://muhammadsubhantech.vercel.app/notes/sql-for-data-analysis</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://muhammadsubhantech.vercel.app/notes/starting-in-data-engineering</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://muhammadsubhantech.vercel.app/contact</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>
