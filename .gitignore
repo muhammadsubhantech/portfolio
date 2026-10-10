@@ -1,0 +1,26 @@
+# Dependencies and local package-manager data
+node_modules/
+.pnpm-store/
+.node_modules.lock
+
+# Local environments and secrets
+.env
+.env.*
+!.env.example
+.venv*/
+venv/
+
+# Local previews and generated output
+.vercel/
+.tanstack/
+artifacts/
+attachments/
+output/
+screenshots/
+*.log
+playwright-report/
+test-results/
+
+# App Builder workspace-only references; keep the non-secret build flags file
+/.grok/*
+!/.grok/app-env.json
