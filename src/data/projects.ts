@@ -33,6 +33,23 @@ export type Project = {
 
 export const PROJECTS: Project[] = [
   {
+    slug: "saess-smart-emergency-surveillance",
+    title: "SAESS — Smart AI Emergency Surveillance",
+    oneLiner: "An in-progress computer-vision concept for recognising road and public-safety incidents.",
+    placeholder: false,
+    categories: ["AI", "Machine Learning", "Python"],
+    tags: ["Computer Vision", "YOLO", "OpenCV", "Road Safety"],
+    image: "/images/project-saess.svg",
+    imageAlt: "Concept illustration of an AI-powered road safety monitoring system",
+    overview: "A project in development focused on using computer vision to help identify safety-related events in surveillance footage.",
+    problem: "Road and public-space monitoring can involve multiple safety conditions that are difficult to review manually across long video streams.",
+    approach: "The planned system explores visual detection for incidents and road-safety conditions, including vehicle crashes, fire, robbery, wrong-way traffic, helmet use and seat-belt use.",
+    implementation: "The project direction centres on Python-based computer vision with models and tools such as YOLO and OpenCV. The public ROAD-SAFETY repository is currently empty, so implementation details and a code link will be added when the source is published.",
+    result: "This is an in-progress project concept; it is not presented as a completed or deployed surveillance product.",
+    learned: "Safety-focused AI needs careful evaluation, privacy safeguards and human review before any real-world use.",
+    future: "Publish the implementation, document the dataset and evaluation protocol, and add safeguards for false detections and privacy.",
+  },
+  {
     slug: "machine-learning-lab",
     title: "Machine Learning Lab",
     oneLiner: "Notebook experiments on passenger satisfaction, bookings, F1 data and student placement.",
@@ -114,8 +131,8 @@ export const PROJECTS: Project[] = [
     placeholder: false,
     categories: ["AI", "Machine Learning"],
     tags: ["Deep Learning", "CNN", "Computer Vision"],
-    image: "/images/cover-agentic.jpg",
-    imageAlt: "Deep learning CNN project visual by Muhammad Subhan",
+    image: "/images/project-cifar10.svg",
+    imageAlt: "CIFAR-10 computer vision classification illustration",
     overview:
       "A GitHub repository dedicated to convolutional neural network practice. It is the vision-focused counterpart to the tabular ML lab and the transfer-learning notebooks.",
     problem:
@@ -164,8 +181,8 @@ export const PROJECTS: Project[] = [
     placeholder: false,
     categories: ["AI", "Machine Learning"],
     tags: ["Transfer Learning", "Deep Learning", "Jupyter"],
-    image: "/images/cover-sql.jpg",
-    imageAlt: "Transfer learning project visual for Muhammad Subhan portfolio",
+    image: "/images/project-cifar10.svg",
+    imageAlt: "Computer vision illustration for transfer learning experiments",
     overview:
       "Three numbered notebooks that walk through transfer learning: feature extraction, fine-tuning, then a comparison report. The repo exists to practise reusing a pretrained network instead of training from scratch.",
     problem:
@@ -290,23 +307,7 @@ export const PROJECTS: Project[] = [
     future: "Document the training dataset and feature definitions, add model evaluation and explainability views.",
     github: "https://github.com/muhammadsubhantech/ML-Projects/tree/main/student_placement",
   },
-  {
-    slug: "saess-smart-emergency-surveillance",
-    title: "SAESS — Smart AI Emergency Surveillance",
-    oneLiner: "An in-progress computer-vision concept for recognising road and public-safety incidents.",
-    placeholder: false,
-    categories: ["AI", "Machine Learning", "Python"],
-    tags: ["Computer Vision", "YOLO", "OpenCV", "Road Safety"],
-    image: "/images/project-saess.svg",
-    imageAlt: "Concept illustration of an AI-powered road safety monitoring system",
-    overview: "A project in development focused on using computer vision to help identify safety-related events in surveillance footage.",
-    problem: "Road and public-space monitoring can involve multiple safety conditions that are difficult to review manually across long video streams.",
-    approach: "The planned system explores visual detection for incidents and road-safety conditions, including vehicle crashes, fire, robbery, wrong-way traffic, helmet use and seat-belt use.",
-    implementation: "The project direction centres on Python-based computer vision with models and tools such as YOLO and OpenCV. The public ROAD-SAFETY repository is currently empty, so implementation details and a code link will be added when the source is published.",
-    result: "This is an in-progress project concept; it is not presented as a completed or deployed surveillance product.",
-    learned: "Safety-focused AI needs careful evaluation, privacy safeguards and human review before any real-world use.",
-    future: "Publish the implementation, document the dataset and evaluation protocol, and add safeguards for false detections and privacy.",
-  },
+
 ];
 
 export function getProject(slug: string) {
