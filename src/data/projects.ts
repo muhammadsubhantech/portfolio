@@ -181,8 +181,8 @@ export const PROJECTS: Project[] = [
     future:
       "Add a README that names the backbone and dataset, and export a short table from the comparison notebook.",
     github: "https://github.com/muhammadsubhantech/Transfer-Learning-Projects",
-  },,
-{
+  },
+  {
     slug: "indus-weave-hr-pipeline",
     title: "Indus Weave HR Data Pipeline",
     oneLiner: "End-to-end Python and SQL analytics pipeline for workforce, attendance and payroll data.",
