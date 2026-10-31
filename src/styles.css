@@ -86,12 +86,12 @@
     color: var(--fg);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   body {
     min-height: 100dvh;
-    overflow-x: hidden;
+    overflow-x: clip;
     background: var(--bg);
     color: var(--fg);
     font-family: var(--font-sans);
@@ -1645,4 +1645,71 @@ button:hover .arrow-shift {
 @media (max-width: 767px) {
   .home-hero::after { background-size: 5rem 100%; }
   .hero-image-frame { padding: .65rem; }
+}
+
+/* Immersive, continuous 3D portfolio direction. */
+.site-shell { position: relative; z-index: 1; background: transparent; }
+.portfolio-home { position: relative; z-index: 1; background: transparent; }
+.portfolio-home main { perspective: 1500px; perspective-origin: 50% 22%; }
+.portfolio-3d-stage { position: fixed; z-index: 0; inset: 0; overflow: hidden; pointer-events: none; opacity: 0.56; mix-blend-mode: screen; }
+.portfolio-3d-stage canvas { display: block; width: 100%; height: 100%; }
+.portfolio-progress { position: fixed; z-index: 70; inset: 0 0 auto; height: 2px; pointer-events: none; background: color-mix(in oklab, var(--accent) 12%, transparent); }
+.portfolio-progress span { display: block; width: 100%; height: 100%; transform: scaleX(var(--portfolio-progress, 0)); transform-origin: left; background: linear-gradient(90deg, #48b7ff, #b8edff); box-shadow: 0 0 15px #48b7ff; }
+.portfolio-hero {
+  transform-style: preserve-3d;
+  background: radial-gradient(ellipse at 76% 46%, color-mix(in oklab, var(--accent) 13%, transparent), transparent 56%), linear-gradient(120deg, color-mix(in oklab, var(--bg-elevated) 88%, transparent), color-mix(in oklab, var(--bg) 62%, transparent));
+  box-shadow: 0 26px 80px -56px color-mix(in oklab, var(--accent) 44%, transparent), inset 0 1px 0 color-mix(in oklab, white 14%, transparent);
+}
+.portfolio-portrait { transform: perspective(1100px) rotateY(6deg) rotateX(1deg) translateZ(22px); transform-style: preserve-3d; box-shadow: 0 28px 60px -34px color-mix(in oklab, var(--accent) 58%, transparent); transition: transform 520ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 520ms ease; }
+.portfolio-portrait:hover { transform: perspective(1100px) rotateY(0deg) rotateX(0deg) translateZ(36px) scale(1.015); }
+.portfolio-band, .portfolio-section, .portfolio-lower, .portfolio-now { max-width: 1440px; transform-style: preserve-3d; }
+.portfolio-band, .portfolio-section, .portfolio-panel, .portfolio-now { box-shadow: 0 24px 60px -46px color-mix(in oklab, var(--accent) 38%, transparent), inset 0 1px 0 color-mix(in oklab, white 11%, transparent); }
+.portfolio-section { background: linear-gradient(135deg, color-mix(in oklab, var(--bg-elevated) 87%, transparent), color-mix(in oklab, var(--bg) 65%, transparent)); }
+.portfolio-project-card { transform: perspective(950px) rotateX(0.6deg) rotateY(-0.6deg); transform-style: preserve-3d; transition: transform 460ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color 240ms ease, box-shadow 360ms ease; }
+.portfolio-project-card:hover { transform: perspective(950px) rotateX(1.5deg) rotateY(-1.5deg) translateY(-5px) translateZ(12px); }
+.portfolio-panel { transform: perspective(1000px) rotateX(0.6deg); transform-style: preserve-3d; background: linear-gradient(145deg, color-mix(in oklab, var(--bg-elevated) 88%, transparent), color-mix(in oklab, var(--bg) 66%, transparent)); }
+.portfolio-contact-panel { background: radial-gradient(ellipse at 85% 15%, color-mix(in oklab, var(--accent) 17%, transparent), transparent 55%), color-mix(in oklab, var(--bg-elevated) 82%, transparent); }
+.portfolio-now { margin: 14px auto 0; padding: 22px 16px 18px; border: 1px solid color-mix(in oklab, var(--accent) 25%, var(--border)); border-radius: 18px; background: linear-gradient(115deg, color-mix(in oklab, var(--bg-elevated) 84%, transparent), color-mix(in oklab, var(--bg) 65%, transparent)); }
+.portfolio-now-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; margin-bottom: 16px; }
+.portfolio-now-heading h2 { margin: 7px 0 3px; font-size: 1.55rem; font-weight: 550; letter-spacing: -0.03em; }
+.portfolio-now-heading p { margin: 0; color: var(--subtle); font-size: 0.83rem; }
+.portfolio-now-live { display: inline-flex; align-items: center; gap: 8px; padding: 8px 11px; border: 1px solid color-mix(in oklab, #66e2b5 36%, var(--border)); border-radius: 999px; color: #84efc5; font-size: 0.68rem; white-space: nowrap; }
+.portfolio-now-live i { width: 7px; height: 7px; border-radius: 50%; background: #66e2b5; box-shadow: 0 0 12px #66e2b5; animation: now-beacon 1.8s ease-in-out infinite; }
+.portfolio-now-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; perspective: 1100px; }
+.portfolio-now-card { min-width: 0; padding: 17px; overflow: hidden; border: 1px solid var(--border); border-radius: 14px; background: linear-gradient(145deg, color-mix(in oklab, var(--surface) 76%, transparent), color-mix(in oklab, var(--bg) 72%, transparent)); transform: perspective(950px) rotateX(1deg) rotateY(-1deg); transform-style: preserve-3d; box-shadow: 0 20px 34px -30px color-mix(in oklab, var(--accent) 52%, transparent); transition: transform 460ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color 260ms ease, box-shadow 360ms ease; }
+.portfolio-now-card:hover { transform: perspective(950px) rotateX(0deg) rotateY(0deg) translateY(-5px) translateZ(14px); border-color: color-mix(in oklab, var(--accent) 62%, var(--border)); box-shadow: 0 28px 44px -32px color-mix(in oklab, var(--accent) 64%, transparent); }
+.portfolio-now-index { color: var(--accent-strong); font-size: 0.61rem; font-weight: 650; letter-spacing: 0.13em; }
+.portfolio-now-card h3 { margin: 12px 0 7px; font-size: 1rem; font-weight: 620; letter-spacing: -0.02em; }
+.portfolio-now-card p { min-height: 4.7em; margin: 0; color: var(--muted); font-size: 0.77rem; line-height: 1.6; }
+.portfolio-now-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.portfolio-now-tags span { padding: 5px 7px; border: 1px solid color-mix(in oklab, var(--accent) 20%, var(--border)); border-radius: 999px; color: var(--subtle); font-size: 0.61rem; }
+.portfolio-nav a, .portfolio-brand, .portfolio-cv, .portfolio-skill, .portfolio-project-link, .portfolio-section-heading > a, .portfolio-text-link { transform-style: preserve-3d; transition: transform 360ms cubic-bezier(0.2, 0.8, 0.2, 1), color 220ms ease, background-color 220ms ease, box-shadow 300ms ease; }
+.portfolio-nav a:hover, .portfolio-brand:hover, .portfolio-cv:hover, .portfolio-skill:hover, .portfolio-project-link:hover, .portfolio-section-heading > a:hover, .portfolio-text-link:hover { transform: translateY(-2px) translateZ(8px); }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .portfolio-hero, .portfolio-band, .portfolio-section, .portfolio-now, .portfolio-lower {
+      animation: portfolio-section-arrive 1s linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 74%;
+    }
+  }
+}
+@keyframes portfolio-section-arrive {
+  from { opacity: 0.62; filter: blur(5px); transform: perspective(1400px) translate3d(0, 28px, -42px) rotateX(1.5deg); }
+  to { opacity: 1; filter: blur(0); transform: perspective(1400px) translate3d(0, 0, 0) rotateX(0); }
+}
+@keyframes now-beacon { 50% { box-shadow: 0 0 0 6px color-mix(in oklab, #66e2b5 12%, transparent), 0 0 14px #66e2b5; } }
+@media (max-width: 760px) {
+  .portfolio-now { margin: 10px 10px 0; padding: 18px 12px 14px; }
+  .portfolio-now-heading { align-items: flex-start; flex-direction: column; gap: 12px; }
+  .portfolio-now-grid { grid-template-columns: 1fr; gap: 9px; }
+  .portfolio-now-card { transform: none; padding: 15px; }
+  .portfolio-now-card p { min-height: auto; }
+  .portfolio-3d-stage { opacity: 0.38; }
+  .portfolio-project-card { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-3d-stage { opacity: 0.2; }
+  .portfolio-now-live i { animation: none; }
+  .portfolio-portrait, .portfolio-project-card, .portfolio-now-card, .portfolio-nav a, .portfolio-brand, .portfolio-cv, .portfolio-skill { transform: none; transition: none; }
 }

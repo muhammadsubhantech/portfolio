@@ -36,6 +36,7 @@ const navigation = [
   { label: "Skills", href: "#skills" },
   { label: "Experience", href: "#experience" },
   { label: "Blog", href: "/notes" },
+  { label: "Now building", href: "#now" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -55,7 +56,7 @@ const skillItems = [
 const socialLinks = [
   { label: "GitHub", href: SOCIALS.find((item) => item.id === "github")?.href ?? "https://github.com/muhammadsubhantech", icon: Github },
   { label: "LinkedIn", href: SOCIALS.find((item) => item.id === "linkedin")?.href ?? "https://www.linkedin.com/in/muhammad-subhan-ai", icon: Linkedin },
-  { label: "Email", href: "mailto:muhammadsubhantech@gmail.com", icon: Mail },
+  { label: "Email", href: `mailto:${SITE.email ?? "muhammadsubhan.tech0@gmail.com"}`, icon: Mail },
 ];
 
 const projectArt: Record<string, string> = {
@@ -76,6 +77,7 @@ function Home() {
 
   return (
     <div className="portfolio-home" id="home">
+      <div className="portfolio-progress" aria-hidden="true"><span /></div>
       <a className="portfolio-skip" href="#main">Skip to content</a>
       <header className="portfolio-topbar">
         <a className="portfolio-brand" href="#home" aria-label={SITE.name + ", home"}>
@@ -113,7 +115,7 @@ function Home() {
       </header>
 
       <main id="main">
-        <section className="portfolio-hero" aria-labelledby="hero-title">
+        <section className="portfolio-hero" aria-labelledby="hero-title" data-journey-stage="home">
           <div className="portfolio-portrait">
             <img src="/images/portrait.jpg" alt="Portrait of Muhammad Subhan" width={720} height={900} />
             <span className="portfolio-signature" aria-hidden="true">Muhammad<br />Subhan</span>
@@ -124,8 +126,8 @@ function Home() {
             <h1 id="hero-title">Muhammad <span>Subhan</span></h1>
             <p className="portfolio-role">AI/ML Developer · Agentic AI · Python · Data Engineering</p>
             <p className="portfolio-lead">
-              Computer Science student with a passion for Artificial Intelligence, Machine Learning
-              and data-driven applications. I build intelligent solutions that turn data into impact.
+              AI and Cloud Data Engineering student exploring practical AI/ML, computer vision and
+              data-driven applications. I turn what I learn into useful, hands-on projects.
             </p>
             <div className="portfolio-socials" aria-label="Social links">
               {socialLinks.map(({ label, href, icon: Icon }) => (
@@ -142,8 +144,8 @@ function Home() {
             <h2>Quick info</h2>
             <ul>
               <li><MapPin size={16} /><span>Karachi, Pakistan</span></li>
-              <li><GraduationCap size={16} /><span>Computer Science (Ongoing)</span></li>
-              <li><Mail size={16} /><a href="mailto:muhammadsubhantech@gmail.com">muhammadsubhantech@gmail.com</a></li>
+              <li><GraduationCap size={16} /><span>Intermediate Computer Science · Ongoing</span></li>
+              <li><Mail size={16} /><a href="mailto:muhammadsubhan.tech0@gmail.com">muhammadsubhan.tech0@gmail.com</a></li>
               <li><BriefcaseBusiness size={16} /><span>Open to internships &amp; projects</span></li>
             </ul>
             <span className="portfolio-availability"><i /> Available for opportunities</span>
@@ -151,7 +153,7 @@ function Home() {
           <a className="portfolio-scroll-cue" href="#skills"><ArrowDown size={15} /> Scroll to explore</a>
         </section>
 
-        <section className="portfolio-band" id="skills" aria-label="Skills">
+        <section className="portfolio-band" id="skills" aria-label="Skills" data-journey-stage="skills">
           <div className="portfolio-band-title">
             <strong><Sparkles size={16} /> My skills</strong>
             <span>Technologies and tools I work with</span>
@@ -163,7 +165,7 @@ function Home() {
           </div>
         </section>
 
-        <section className="portfolio-section" id="projects">
+        <section className="portfolio-section" id="projects" data-journey-stage="projects">
           <div className="portfolio-section-heading">
             <div>
               <span className="portfolio-kicker"><Layers3 size={16} /> Selected work</span>
@@ -194,7 +196,38 @@ function Home() {
           </div>
         </section>
 
-        <section className="portfolio-lower">
+        <section className="portfolio-now" id="now" data-journey-stage="now" aria-labelledby="now-title">
+          <div className="portfolio-now-heading">
+            <div>
+              <span className="portfolio-kicker"><Workflow size={16} /> Current focus</span>
+              <h2 id="now-title">What I’m working toward</h2>
+              <p>Active learning and personal-project work, shared with the right context.</p>
+            </div>
+            <span className="portfolio-now-live"><i /> In progress</span>
+          </div>
+          <div className="portfolio-now-grid">
+            <article className="portfolio-now-card">
+              <span className="portfolio-now-index">01 / COMPUTER VISION</span>
+              <h3>SAESS</h3>
+              <p>Exploring a Smart AI Emergency Surveillance System concept for road-safety violations and incident detection.</p>
+              <div className="portfolio-now-tags"><span>Wrong-way driving</span><span>Helmet / seat-belt checks</span><span>Incident detection</span></div>
+            </article>
+            <article className="portfolio-now-card">
+              <span className="portfolio-now-index">02 / MODEL BUILDING</span>
+              <h3>CNN &amp; image classification</h3>
+              <p>Developing personal ML projects with Python and TensorFlow; studying training workflows and model evaluation.</p>
+              <div className="portfolio-now-tags"><span>Python</span><span>TensorFlow</span><span>Computer vision</span></div>
+            </article>
+            <article className="portfolio-now-card">
+              <span className="portfolio-now-index">03 / LEARNING TRACK</span>
+              <h3>Cloud data + Agentic AI</h3>
+              <p>Currently exploring Google Cloud Dataflow, cloud data pipelines, AI automation and agentic systems.</p>
+              <div className="portfolio-now-tags"><span>Dataflow</span><span>Data pipelines</span><span>Agentic AI</span></div>
+            </article>
+          </div>
+        </section>
+
+        <section className="portfolio-lower" data-journey-stage="journey">
           <article className="portfolio-panel" id="about">
             <span className="portfolio-kicker"><Sparkles size={16} /> A little about me</span>
             <h2>Curiosity, built into the work.</h2>
@@ -211,14 +244,14 @@ function Home() {
             <h2>Growing through practice.</h2>
             <div className="portfolio-timeline">
               <div>
-                <span>Ongoing</span>
-                <strong>Computer Science studies</strong>
-                <p>Building a strong foundation in computing, problem solving and software.</p>
+                <span>August 2026 — May 2028 · Ongoing</span>
+                <strong>Intermediate, Computer Science</strong>
+                <p>Government National College · Building a foundation in computing and problem solving.</p>
               </div>
               <div>
-                <span>Hands-on learning</span>
-                <strong>AI, machine learning &amp; data</strong>
-                <p>Turning academic learning into practical notebooks and portfolio projects.</p>
+                <span>August 2025 — Present</span>
+                <strong>AI/ML Developer · Personal projects</strong>
+                <p>Exploring deep learning, image classification and predictive data analysis with Python and TensorFlow.</p>
               </div>
             </div>
             <a className="portfolio-text-link" href="/journey">Explore my journey <ArrowUpRight size={15} /></a>
@@ -228,7 +261,7 @@ function Home() {
             <span className="portfolio-kicker"><Mail size={16} /> Get in touch</span>
             <h2>Have an idea to explore?</h2>
             <p>I'm open to learning opportunities, thoughtful collaborations and projects across AI and data.</p>
-            <a className="portfolio-cv portfolio-contact-link" href="mailto:muhammadsubhantech@gmail.com">
+            <a className="portfolio-cv portfolio-contact-link" href="mailto:muhammadsubhan.tech0@gmail.com">
               <Mail size={16} /> Say hello <ArrowUpRight size={15} />
             </a>
             <a className="portfolio-text-link" href="/contact">Contact page <ExternalLink size={14} /></a>

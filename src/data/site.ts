@@ -15,7 +15,7 @@ export const SITE = {
   footerLine: "AI/ML Engineer in the making, learning through code and building practical projects.",
   builtLine: "Built with curiosity. Powered by learning.",
   year: 2026,
-  email: null as string | null,
+  email: "muhammadsubhan.tech0@gmail.com" as string | null,
   languages: [
     { name: "Urdu", level: "Fluent" },
     { name: "English", level: "Basic" },
@@ -59,6 +59,11 @@ export const SOCIALS = [
     id: "linkedin",
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/muhammad-subhan-ai",
+  },
+  {
+    id: "email",
+    label: "Email",
+    href: "mailto:muhammadsubhan.tech0@gmail.com",
   },
   {
     id: "portfolio",

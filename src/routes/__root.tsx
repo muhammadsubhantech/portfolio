@@ -5,6 +5,7 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
+import { Portfolio3DStage } from "@/components/motion/portfolio-3d-stage";
 import { GestureController } from "@/components/motion/gesture-controller";
 import { SiteShell } from "@/components/layout/site-shell";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -51,6 +52,7 @@ function RootDocument() {
       </head>
       <body>
         <PreviewHostBridge />
+        <Portfolio3DStage />
         <JsonLd data={personJsonLd()} />
         <JsonLd data={websiteJsonLd()} />
         <AuthProvider>
