@@ -2123,3 +2123,7 @@ button:hover .arrow-shift {
 @media (prefers-reduced-motion: reduce) {
   .saess-banner-frame::before, .saess-banner-frame::after, .saess-analysis-overlay, .saess-hud-bottom b, .saess-target, .saess-target i, .saess-data-section::before, .saess-data-section::after { animation: none !important; }
 }
+
+
+@keyframes saess-section-arrive { from { opacity: 0; transform: perspective(1000px) translateY(42px) rotateX(3deg); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes saess-image-drift { from { transform: scale(1.02) translateY(0); } to { transform: scale(1.14) translateY(7%); } }
