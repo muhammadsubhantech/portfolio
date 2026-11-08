@@ -32,6 +32,7 @@ export const Route = createFileRoute("/projects/$slug")({
 
 function ProjectDetail() {
   const { project } = Route.useLoaderData();
+  const isSaess = project.slug === "saess-smart-emergency-surveillance";
   const sections = [
     { id: "overview", title: "Overview", body: project.overview },
     { id: "problem", title: "Problem", body: project.problem },
@@ -52,7 +53,7 @@ function ProjectDetail() {
           { name: project.title, path: `/projects/${project.slug}` },
         ])}
       />
-      <article className="mx-auto max-w-3xl px-4 pb-20 md:px-6">
+      <article className={isSaess ? "saess-project mx-auto max-w-6xl px-4 pb-20 md:px-6" : "mx-auto max-w-3xl px-4 pb-20 md:px-6"}>
         <Link
           to="/projects"
           className="mt-8 inline-flex items-center gap-2 text-sm text-muted no-underline hover:text-fg"
@@ -65,16 +66,25 @@ function ProjectDetail() {
         </p>
         <h1 className="mt-3 font-display text-4xl text-fg md:text-6xl">{project.title}</h1>
         <p className="mt-4 text-lg text-muted">{project.oneLiner}</p>
-        <div className="mt-8 [perspective:1200px]">
-          <div className="banner-tilt overflow-hidden rounded-[var(--radius-md)]">
+        <div className={isSaess ? "saess-banner-frame mt-8 [perspective:1200px]" : "mt-8 [perspective:1200px]"}>
+          <div className={isSaess ? "banner-tilt project-banner saess-banner overflow-hidden rounded-[var(--radius-md)]" : "banner-tilt project-banner overflow-hidden rounded-[var(--radius-md)]"}>
             <div className="banner-slab">
               <span className="banner-edge" aria-hidden="true" />
               <img
-                src={project.image}
-                alt={project.imageAlt}
+                src={isSaess ? "/images/saess-command-center.png" : project.image}
+                alt={isSaess ? "Immersive AI command center concept showing neural analysis and connected digital systems" : project.imageAlt}
                 className="aspect-[16/9] w-full object-cover"
               />
             </div>
+            {isSaess ? (
+              <div className="saess-analysis-overlay" aria-hidden="true">
+                <span className="saess-hud-top">SAESS / VISION SYSTEM <i>ILLUSTRATIVE CONCEPT · NOT LIVE</i></span>
+                <span className="saess-target saess-target-one"><i />VEHICLE ANALYSIS<small>YOLO · PLANNED</small></span>
+                <span className="saess-target saess-target-two"><i />ROAD EVENT<small>OPENCV · PLANNED</small></span>
+                <span className="saess-target saess-target-three"><i />SAFETY SIGNAL<small>IN DEVELOPMENT</small></span>
+                <span className="saess-hud-bottom">COMPUTER VISION <b>•••</b> SAMPLE VISUALIZATION</span>
+              </div>
+            ) : null}
           </div>
         </div>
         <div className="mt-5 flex flex-wrap gap-2">
@@ -89,7 +99,7 @@ function ProjectDetail() {
         </div>
 
         {sections.map((section) => (
-          <section key={section.id} className="mt-12">
+          <section key={section.id} className={isSaess ? "mt-12 saess-data-section" : "mt-12"}>
             <h2 className="font-display text-3xl text-fg">{section.title}</h2>
             <p className="mt-3 text-muted">{section.body}</p>
           </section>

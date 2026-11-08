@@ -1,19 +1,31 @@
 import { Camera, Hand, Power } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-const VIDEO_WIDTH = 96;
-const VIDEO_HEIGHT = 72;
-const GRID_COLUMNS = 8;
-const GRID_ROWS = 6;
-const INTERACTIVE = 'a[href^="/"], a[href^="#"], button:not([data-gesture-toggle]), [role="button"], [role="tab"], input:not([type="hidden"]), select, textarea';
+const INTERACTIVE = 'a[href], button:not([data-gesture-toggle]), [role="button"], [role="tab"], input:not([type="hidden"]), select, textarea';
+const VISION_MODULE = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/vision_bundle.mjs";
+const VISION_WASM = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/wasm";
+const HAND_MODEL = "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task";
 
-/** Optional, on-device motion cursor for scrolling and navigating the whole site. */
+type HandLandmarker = {
+  detectForVideo: (video: HTMLVideoElement, timestamp: number) => {
+    landmarks?: Array<Array<{ x: number; y: number; z: number }>>;
+  };
+  close: () => void;
+};
+
+type GestureState = {
+  lastSeen: number;
+  pinchDown: boolean;
+  lastClick: number;
+};
+
+/** Optional, on-device hand cursor for scrolling and navigating the whole site. */
 export function GestureController() {
   const [enabled, setEnabled] = useState(false);
   const [status, setStatus] = useState("Camera off");
   const cursorElement = useRef<HTMLDivElement>(null);
   const cursorRef = useRef({ x: 0, y: 0 });
-  const activityRef = useRef({ lastMotion: 0, dwellTarget: null as HTMLElement | null, dwellStart: 0, fired: false });
+  const gestureRef = useRef<GestureState>({ lastSeen: 0, pinchDown: false, lastClick: 0 });
 
   useEffect(() => {
     if (!enabled) return;
@@ -25,170 +37,139 @@ export function GestureController() {
 
     let stopped = false;
     let stream: MediaStream | undefined;
-    let sampleTimer = 0;
     let frame = 0;
-    let previous: Uint8Array | undefined;
+    let landmarker: HandLandmarker | undefined;
+    let lastDetection = 0;
+    let lastTimestamp = 0;
     const video = document.createElement("video");
-    const canvas = document.createElement("canvas");
-    canvas.width = VIDEO_WIDTH;
-    canvas.height = VIDEO_HEIGHT;
-    const context = canvas.getContext("2d", { willReadFrequently: true });
-    const activity = activityRef.current;
-    activity.dwellTarget = null;
-    activity.dwellStart = 0;
-    activity.fired = false;
+    video.muted = true;
+    video.playsInline = true;
+    const gesture = gestureRef.current;
+    gesture.lastSeen = 0;
+    gesture.pinchDown = false;
 
-    void navigator.mediaDevices.getUserMedia({
-      video: { facingMode: "user", width: { ideal: 320 }, height: { ideal: 240 } },
-      audio: false,
-    }).then((camera) => {
-      if (stopped) {
-        camera.getTracks().forEach((track) => track.stop());
-        return;
-      }
-      stream = camera;
-      video.srcObject = camera;
-      video.muted = true;
-      void video.play();
-      setStatus("Move hand · pause to select · screen edges to scroll");
+    const start = async () => {
+      try {
+        setStatus("Requesting camera access");
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "user", width: { ideal: 640 }, height: { ideal: 480 } },
+          audio: false,
+        });
+        if (stopped) {
+          stream.getTracks().forEach((track) => track.stop());
+          return;
+        }
+        video.srcObject = stream;
+        await video.play();
 
-      const sample = () => {
-        if (stopped) return;
-        if (context && video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
-          context.drawImage(video, 0, 0, VIDEO_WIDTH, VIDEO_HEIGHT);
-          const pixels = context.getImageData(0, 0, VIDEO_WIDTH, VIDEO_HEIGHT).data;
-          const current = new Uint8Array(VIDEO_WIDTH * VIDEO_HEIGHT);
-          const cellCount = new Uint16Array(GRID_COLUMNS * GRID_ROWS);
-          const cellX = new Float32Array(GRID_COLUMNS * GRID_ROWS);
-          const cellY = new Float32Array(GRID_COLUMNS * GRID_ROWS);
-          for (let i = 0, pixel = 0; i < pixels.length; i += 4, pixel += 1) {
-            const luminance = (pixels[i]! * 3 + pixels[i + 1]! * 6 + pixels[i + 2]!) / 10;
-            current[pixel] = luminance;
-            if (previous && Math.abs(luminance - previous[pixel]!) > 21) {
-              const x = pixel % VIDEO_WIDTH;
-              const y = Math.floor(pixel / VIDEO_WIDTH);
-              const col = Math.min(GRID_COLUMNS - 1, Math.floor(x / (VIDEO_WIDTH / GRID_COLUMNS)));
-              const row = Math.min(GRID_ROWS - 1, Math.floor(y / (VIDEO_HEIGHT / GRID_ROWS)));
-              const cell = row * GRID_COLUMNS + col;
-              cellCount[cell] += 1;
-              cellX[cell] += x;
-              cellY[cell] += y;
-            }
-          }
+        setStatus("Loading hand tracking");
+        const vision = await import(/* @vite-ignore */ VISION_MODULE);
+        const files = await vision.FilesetResolver.forVisionTasks(VISION_WASM);
+        const options = {
+          runningMode: "VIDEO",
+          numHands: 1,
+          minHandDetectionConfidence: 0.7,
+          minHandPresenceConfidence: 0.65,
+          minTrackingConfidence: 0.65,
+        };
+        try {
+          landmarker = await vision.HandLandmarker.createFromOptions(files, {
+            ...options,
+            baseOptions: { modelAssetPath: HAND_MODEL, delegate: "GPU" },
+          }) as HandLandmarker;
+        } catch {
+          landmarker = await vision.HandLandmarker.createFromOptions(files, {
+            ...options,
+            baseOptions: { modelAssetPath: HAND_MODEL, delegate: "CPU" },
+          }) as HandLandmarker;
+        }
+        if (stopped) {
+          landmarker.close();
+          return;
+        }
+        setStatus("Show your hand · pinch to click · reach screen edges to scroll");
 
-          // Low-resolution frame differencing stays local; no video or frames leave the device.
-          if (previous) {
-            let densest = 0;
-            for (let cell = 1; cell < cellCount.length; cell += 1) {
-              if (cellCount[cell]! > cellCount[densest]!) densest = cell;
-            }
-            const centerCol = densest % GRID_COLUMNS;
-            const centerRow = Math.floor(densest / GRID_COLUMNS);
-            let motionPixels = 0;
-            let xSum = 0;
-            let ySum = 0;
-            for (let row = Math.max(0, centerRow - 1); row <= Math.min(GRID_ROWS - 1, centerRow + 1); row += 1) {
-              for (let col = Math.max(0, centerCol - 1); col <= Math.min(GRID_COLUMNS - 1, centerCol + 1); col += 1) {
-                const cell = row * GRID_COLUMNS + col;
-                motionPixels += cellCount[cell]!;
-                xSum += cellX[cell]!;
-                ySum += cellY[cell]!;
-              }
-            }
-            const maxNoise = VIDEO_WIDTH * VIDEO_HEIGHT * 0.24;
-            if (motionPixels > 10 && motionPixels < maxNoise) {
-              const bounds = { x: xSum / motionPixels / VIDEO_WIDTH, y: ySum / motionPixels / VIDEO_HEIGHT };
-              const gain = 1.35;
-              const mappedX = Math.max(0, Math.min(1, 0.5 + ((1 - bounds.x) - 0.5) * gain));
-              const mappedY = Math.max(0, Math.min(1, 0.5 + (bounds.y - 0.5) * gain));
-              const nextX = mappedX * window.innerWidth;
-              const nextY = mappedY * window.innerHeight;
+        const tick = (now: number) => {
+          if (stopped) return;
+          if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA && now - lastDetection > 32 && landmarker) {
+            lastDetection = now;
+            const timestamp = Math.max(now, lastTimestamp + 1);
+            lastTimestamp = timestamp;
+            const results = landmarker.detectForVideo(video, timestamp);
+            const points = results.landmarks?.[0];
+            const cursor = cursorElement.current;
+
+            if (points) {
+              const index = points[8]!;
+              const thumb = points[4]!;
+              const mirroredX = 1 - index.x;
+              const nextX = Math.max(0, Math.min(1, 0.5 + (mirroredX - 0.5) * 1.18)) * window.innerWidth;
+              const nextY = Math.max(0, Math.min(1, 0.5 + (index.y - 0.5) * 1.18)) * window.innerHeight;
               const target = cursorRef.current;
-              const stale = performance.now() - activity.lastMotion > 2200;
-              const response = stale ? 1 : 0.78;
-              target.x += (nextX - target.x) * response;
-              target.y += (nextY - target.y) * response;
-              activity.lastMotion = performance.now();
+              target.x += (nextX - target.x) * 0.42;
+              target.y += (nextY - target.y) * 0.42;
+              gesture.lastSeen = now;
+
+              const x = Math.max(8, Math.min(window.innerWidth - 8, target.x));
+              const y = Math.max(8, Math.min(window.innerHeight - 8, target.y));
+              const pinching = Math.hypot(index.x - thumb.x, index.y - thumb.y) < 0.055;
+
+              if (pinching && !gesture.pinchDown && now - gesture.lastClick > 550) {
+                const targetElement = document.elementFromPoint(x, y);
+                const interactive = targetElement?.closest<HTMLElement>(INTERACTIVE) ?? null;
+                const canvasTarget = targetElement instanceof HTMLCanvasElement && targetElement.closest(".banner-stage") ? targetElement : null;
+                const candidate = canvasTarget ?? interactive;
+                if (candidate && !candidate.hasAttribute("disabled") && !candidate.hasAttribute("data-gesture-toggle")) {
+                  candidate.click();
+                  gesture.lastClick = now;
+                  setStatus("Pinch click");
+                }
+              }
+              gesture.pinchDown = pinching;
+
+              if (y < 44) window.scrollBy({ top: -Math.min(12, (44 - y) * 0.22), behavior: "auto" });
+              else if (y > window.innerHeight - 44) window.scrollBy({ top: Math.min(12, (y - window.innerHeight + 44) * 0.22), behavior: "auto" });
+
+              document.elementFromPoint(x, y)?.dispatchEvent(new PointerEvent("pointermove", {
+                bubbles: true,
+                clientX: x,
+                clientY: y,
+                pointerType: "mouse",
+              }));
+              if (cursor) {
+                cursor.style.left = `${x}px`;
+                cursor.style.top = `${y}px`;
+                cursor.style.setProperty("--gesture-angle", pinching ? "360deg" : "0deg");
+                cursor.dataset.visible = "true";
+                cursor.dataset.pinch = String(pinching);
+              }
+            } else {
+              gesture.pinchDown = false;
+              if (now - gesture.lastSeen > 900 && cursor) cursor.dataset.visible = "false";
             }
           }
-          previous = current;
+          frame = window.requestAnimationFrame(tick);
+        };
+        frame = window.requestAnimationFrame(tick);
+      } catch {
+        if (!stopped) {
+          setStatus("Hand tracking unavailable · check camera access and connection");
+          setEnabled(false);
         }
-        sampleTimer = window.setTimeout(sample, 70);
-      };
-      sample();
-    }).catch(() => {
-      if (!stopped) {
-        setStatus("Camera permission not granted");
-        setEnabled(false);
       }
-    });
-
-    const tick = () => {
-      if (stopped) return;
-      const now = performance.now();
-      const target = cursorRef.current;
-      const visible = now - activity.lastMotion < 2200;
-
-      if (visible) {
-        const x = Math.max(8, Math.min(window.innerWidth - 8, target.x));
-        const y = Math.max(8, Math.min(window.innerHeight - 8, target.y));
-        const under = document.elementFromPoint(x, y);
-        const interactive = under?.closest<HTMLElement>(INTERACTIVE) ?? null;
-        const galleryCanvas = under instanceof HTMLCanvasElement && under.closest(".banner-stage") ? under : null;
-        const safeInternalLink = interactive?.matches("a[href^='/'], a[href^='#']") ?? false;
-        const dwellable = interactive?.tagName === "BUTTON" || safeInternalLink || ["button", "tab"].includes(interactive?.getAttribute("role") ?? "") || ["INPUT", "SELECT", "TEXTAREA"].includes(interactive?.tagName ?? "");
-        const candidate = galleryCanvas ?? (dwellable && !interactive?.hasAttribute("disabled") && !interactive?.hasAttribute("data-gesture-toggle") ? interactive : null);
-
-        if (candidate !== activity.dwellTarget) {
-          activity.dwellTarget = candidate;
-          activity.dwellStart = now;
-          activity.fired = false;
-        }
-
-        let progress = 0;
-        if (candidate) {
-          progress = Math.min(1, (now - activity.dwellStart) / 700);
-          if (progress >= 1 && !activity.fired) {
-            activity.fired = true;
-            candidate.click();
-            setStatus("Opened selection");
-          }
-        }
-
-        // Resting near the top/bottom edge scrolls the page without changing routes.
-        if (y < 44) window.scrollBy({ top: -Math.min(12, (44 - y) * 0.22), behavior: "auto" });
-        else if (y > window.innerHeight - 44) window.scrollBy({ top: Math.min(12, (y - window.innerHeight + 44) * 0.22), behavior: "auto" });
-
-        document.elementFromPoint(x, y)?.dispatchEvent(new PointerEvent("pointermove", {
-          bubbles: true,
-          clientX: x,
-          clientY: y,
-          pointerType: "mouse",
-        }));
-        const cursor = cursorElement.current;
-        if (cursor) {
-          cursor.style.left = `${x}px`;
-          cursor.style.top = `${y}px`;
-          cursor.style.setProperty("--gesture-angle", `${progress * 360}deg`);
-          cursor.dataset.visible = "true";
-        }
-      } else {
-        activity.dwellTarget = null;
-        activity.fired = false;
-        if (cursorElement.current) cursorElement.current.dataset.visible = "false";
-      }
-
-      frame = window.requestAnimationFrame(tick);
     };
-    frame = window.requestAnimationFrame(tick);
 
+    void start();
     return () => {
       stopped = true;
-      window.clearTimeout(sampleTimer);
       window.cancelAnimationFrame(frame);
+      landmarker?.close();
       stream?.getTracks().forEach((track) => track.stop());
       video.srcObject = null;
-      if (cursorElement.current) cursorElement.current.dataset.visible = "false";
+      if (cursorElement.current) {
+        cursorElement.current.dataset.visible = "false";
+        cursorElement.current.dataset.pinch = "false";
+      }
       setStatus("Camera off");
     };
   }, [enabled]);
@@ -213,7 +194,7 @@ export function GestureController() {
           {!enabled && <Camera aria-hidden="true" />}
         </button>
       </aside>
-      <div ref={cursorElement} className="gesture-cursor" data-visible="false" aria-hidden="true" />
+      <div ref={cursorElement} className="gesture-cursor" data-visible="false" data-pinch="false" aria-hidden="true" />
     </>
   );
 }

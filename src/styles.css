@@ -1713,3 +1713,534 @@ button:hover .arrow-shift {
   .portfolio-now-live i { animation: none; }
   .portfolio-portrait, .portfolio-project-card, .portfolio-now-card, .portfolio-nav a, .portfolio-brand, .portfolio-cv, .portfolio-skill { transform: none; transition: none; }
 }
+
+
+/* Immersive AI world: animated neural signal, dimensional surfaces, and live edges. */
+@property --neural-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+:root { --neural-blue: #4d9dff; --neural-cyan: #56e0ff; --neural-violet: #9b8aff; }
+
+.portfolio-home {
+  position: relative;
+  isolation: isolate;
+  perspective: 1500px;
+  background:
+    radial-gradient(ellipse at 50% -12%, color-mix(in oklab, var(--accent) 24%, transparent), transparent 52%),
+    radial-gradient(ellipse at 8% 42%, color-mix(in oklab, var(--neural-cyan) 7%, transparent), transparent 36%),
+    var(--bg);
+}
+.portfolio-home::before {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  background-image: radial-gradient(circle, color-mix(in oklab, var(--neural-cyan) 70%, transparent) 1px, transparent 1.8px), linear-gradient(125deg, transparent 18%, color-mix(in oklab, var(--accent) 12%, transparent) 18.1%, transparent 18.35%, transparent 72%, color-mix(in oklab, var(--neural-cyan) 11%, transparent) 72.1%, transparent 72.35%);
+  background-size: 64px 64px, 100% 100%;
+  mask-image: radial-gradient(ellipse at 50% 28%, #000 10%, transparent 78%);
+  opacity: .28;
+  content: "";
+  animation: neural-drift 24s linear infinite;
+  pointer-events: none;
+}
+
+.portfolio-topbar {
+  border-image: linear-gradient(90deg, transparent, color-mix(in oklab, var(--accent) 55%, transparent), color-mix(in oklab, var(--neural-cyan) 55%, transparent), transparent) 1;
+  box-shadow: 0 12px 40px -32px var(--accent), inset 0 -1px color-mix(in oklab, var(--neural-cyan) 13%, transparent);
+}
+.portfolio-brand, .portfolio-nav a, .portfolio-cv, .portfolio-mark { transform-style: preserve-3d; }
+.portfolio-brand:hover { transform: translateZ(10px); }
+.portfolio-nav a:hover { transform: translateY(-2px) translateZ(6px); }
+.portfolio-nav a.is-active::after {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-strong), var(--neural-cyan), transparent);
+  box-shadow: 0 0 14px var(--glow);
+  animation: signal-flow 2.4s linear infinite;
+}
+
+.portfolio-hero, .portfolio-quick-card, .portfolio-project-card, .portfolio-now-card, .portfolio-panel, .portfolio-band, .portfolio-skill, .portfolio-topbar, .portfolio-footer {
+  transform-style: preserve-3d;
+}
+.portfolio-hero {
+  min-height: 390px;
+  border-color: color-mix(in oklab, var(--accent) 38%, var(--border));
+  background:
+    linear-gradient(90deg, color-mix(in oklab, var(--bg) 36%, transparent), color-mix(in oklab, var(--bg) 66%, transparent) 47%, color-mix(in oklab, var(--bg) 36%, transparent)),
+    url("/images/hero.jpg") center 48% / cover no-repeat,
+    var(--bg-elevated);
+  box-shadow: 0 36px 100px -65px #000, inset 0 1px color-mix(in oklab, white 13%, transparent), 0 0 55px -40px var(--accent);
+  animation: neural-arrive 900ms cubic-bezier(.2,.8,.2,1) both, hero-hover 8s ease-in-out 1s infinite;
+}
+.portfolio-hero::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-image: radial-gradient(circle, var(--neural-cyan) 0 1px, transparent 2px), linear-gradient(145deg, transparent 17%, color-mix(in oklab, var(--accent) 72%, transparent) 17.08%, transparent 17.18%, transparent 39%, color-mix(in oklab, var(--neural-cyan) 68%, transparent) 39.08%, transparent 39.18%, transparent 67%, color-mix(in oklab, var(--neural-violet) 68%, transparent) 67.08%, transparent 67.18%);
+  background-size: 72px 72px, 100% 100%;
+  mask-image: linear-gradient(90deg, transparent, black 18%, black 84%, transparent);
+  opacity: .28;
+  content: "";
+  animation: neural-drift 18s linear infinite;
+  pointer-events: none;
+}
+.portfolio-hero::after {
+  inset: -1px;
+  background: linear-gradient(115deg, color-mix(in oklab, var(--accent) 12%, transparent), transparent 48%, color-mix(in oklab, var(--neural-cyan) 8%, transparent));
+  animation: energy-breathe 5s ease-in-out infinite;
+}
+.portfolio-portrait { perspective: 900px; transform-style: preserve-3d; }
+.portfolio-portrait img {
+  transform: rotateY(-5deg) rotateX(2deg) translateZ(12px);
+  box-shadow: 12px 20px 0 -12px color-mix(in oklab, var(--accent) 75%, transparent), 0 24px 55px -28px #000, 0 0 34px color-mix(in oklab, var(--accent) 28%, transparent);
+  transition: transform 550ms cubic-bezier(.2,.8,.2,1), box-shadow 550ms ease;
+  animation: portrait-hover 7s ease-in-out infinite;
+}
+.portfolio-portrait:hover img { transform: rotateY(0) rotateX(0) translateZ(24px) scale(1.025); }
+.portfolio-intro h1 span { color: var(--accent-strong); text-shadow: 0 0 28px var(--glow); }
+.portfolio-quick-card { animation: card-hover 6s ease-in-out .8s infinite; }
+
+/* Living energy borders sit on the actual content surfaces, not behind the page. */
+.portfolio-hero, .portfolio-quick-card, .portfolio-project-card, .portfolio-now-card, .portfolio-panel, .portfolio-band, .portfolio-skill, .project-banner, .system-card, .glass-card, .project-card, .note-card, .skill-card {
+  position: relative;
+  isolation: isolate;
+}
+.portfolio-hero::after, .portfolio-quick-card::after, .portfolio-project-card::before, .portfolio-now-card::before, .portfolio-panel::before, .portfolio-band::after, .portfolio-skill::after, .project-banner::before, .site-shell .system-card::before, .site-shell .glass-card::before, .site-shell .project-card::before, .site-shell .note-card::before, .site-shell .skill-card::before {
+  pointer-events: none;
+}
+.portfolio-project-card::before, .portfolio-now-card::before, .portfolio-panel::before, .portfolio-band::after, .portfolio-skill::after, .portfolio-quick-card::after, .project-banner::before, .site-shell .system-card::before, .site-shell .glass-card::before, .site-shell .project-card::before, .site-shell .note-card::before, .site-shell .skill-card::before {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from var(--neural-angle), transparent 0 38%, color-mix(in oklab, var(--accent) 82%, transparent) 44%, var(--neural-cyan) 49%, color-mix(in oklab, var(--neural-violet) 75%, transparent) 54%, transparent 62% 100%);
+  content: "";
+  opacity: .62;
+  animation: neural-orbit 8s linear infinite;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+.portfolio-hero::after, .portfolio-quick-card::after { z-index: 4; }
+.portfolio-project-card::before, .portfolio-now-card::before, .portfolio-panel::before, .portfolio-band::after, .portfolio-skill::after, .project-banner::before, .site-shell .system-card::before, .site-shell .glass-card::before, .site-shell .project-card::before, .site-shell .note-card::before, .site-shell .skill-card::before { opacity: .4; }
+
+.portfolio-project-card, .portfolio-now-card, .portfolio-panel, .portfolio-skill, .portfolio-quick-card, .site-shell .system-card, .site-shell .glass-card, .site-shell .project-card, .site-shell .note-card, .site-shell .skill-card {
+  transition: transform 450ms cubic-bezier(.2,.8,.2,1), box-shadow 450ms ease, border-color 350ms ease;
+  animation: card-hover 7s ease-in-out infinite;
+}
+.portfolio-project-card:nth-child(2n), .portfolio-now-card:nth-child(2n), .portfolio-panel:nth-child(2n), .site-shell .project-card:nth-child(2n), .site-shell .skill-card:nth-child(2n) { animation-delay: -2.6s; }
+.portfolio-project-card:nth-child(3n), .portfolio-now-card:nth-child(3n), .portfolio-panel:nth-child(3n), .site-shell .project-card:nth-child(3n), .site-shell .note-card:nth-child(3n) { animation-delay: -4.2s; }
+.portfolio-project-card:hover, .portfolio-project-card:focus-visible, .portfolio-project-card:active,
+.portfolio-now-card:hover, .portfolio-panel:hover, .portfolio-skill:hover,
+.site-shell .system-card:hover, .site-shell .glass-card:not(.banner-tilt):hover,
+.site-shell .project-card:hover, .site-shell .note-card:hover, .site-shell .skill-card:hover {
+  z-index: 8;
+  transform: perspective(1100px) translateY(-8px) rotateX(2deg) rotateY(-2deg) translateZ(12px);
+  box-shadow: 0 32px 62px -38px #000, 0 0 26px -15px var(--accent);
+}
+.portfolio-project-image { overflow: hidden; transform: translateZ(8px); }
+.portfolio-project-image img { transition: transform 850ms cubic-bezier(.2,.8,.2,1), filter 550ms ease; will-change: transform; }
+.portfolio-project-card:hover .portfolio-project-image img, .portfolio-project-card:focus-visible .portfolio-project-image img { transform: scale(1.09) translateZ(12px); filter: saturate(1.18) contrast(1.06); }
+.portfolio-project-card:hover::before, .portfolio-now-card:hover::before, .portfolio-panel:hover::before, .portfolio-skill:hover::after, .site-shell .project-card:hover::before, .site-shell .skill-card:hover::before { opacity: 1; animation-duration: 2.2s; }
+.portfolio-section-heading, .portfolio-now-heading, .portfolio-lower > *, .portfolio-band { animation: section-settle 750ms cubic-bezier(.2,.8,.2,1) both; }
+.portfolio-now-card { animation-delay: -1.5s; }
+.portfolio-skill { animation: skill-float 5s ease-in-out infinite; }
+.portfolio-skill:nth-child(3n) { animation-delay: -1.7s; }
+.portfolio-skill:nth-child(3n + 1) { animation-delay: -3.1s; }
+.portfolio-cv { background: linear-gradient(135deg, #75b8ff, #286fe0 58%, #184cae); border-color: color-mix(in oklab, var(--neural-cyan) 65%, var(--border)); box-shadow: 0 0 24px -12px var(--accent); transition: transform 260ms ease, box-shadow 260ms ease, filter 260ms ease; }
+.portfolio-cv:hover { filter: brightness(1.12); transform: translateY(-3px) translateZ(8px); box-shadow: 0 12px 32px -16px var(--accent); }
+
+.project-banner { overflow: hidden; }
+.project-banner::before { z-index: 5; opacity: .9; }
+.project-banner .banner-slab { animation: banner-float 8s ease-in-out infinite; }
+.project-banner img { filter: saturate(1.04); transition: filter 500ms ease, transform 650ms cubic-bezier(.2,.8,.2,1); }
+.project-banner:hover img { filter: saturate(1.2) contrast(1.06); transform: scale(1.025); }
+.banner-edge { background: linear-gradient(145deg, color-mix(in oklab, var(--accent) 35%, #24312b), #070908 55%); }
+.banner-tilt { box-shadow: 0 35px 70px -42px #000, 0 0 35px -22px var(--accent); }
+.site-shell .project-card, .site-shell .note-card, .site-shell .skill-card, .site-shell .system-card, .site-shell .glass-card { box-shadow: 0 20px 50px -40px #000, var(--shadow-border); }
+
+@keyframes neural-orbit { to { --neural-angle: 360deg; } }
+@keyframes neural-drift { to { background-position: 64px 64px, 0 0; } }
+@keyframes neural-arrive { from { opacity: 0; transform: perspective(1200px) translateY(28px) rotateX(2deg); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes hero-hover { 0%, 100% { box-shadow: 0 36px 100px -65px #000, inset 0 1px #ffffff20, 0 0 55px -40px var(--accent); } 50% { box-shadow: 0 42px 110px -62px #000, inset 0 1px #ffffff30, 0 0 78px -36px var(--neural-cyan); } }
+@keyframes card-hover { 0%, 100% { translate: 0 0; } 50% { translate: 0 -3px; } }
+@keyframes portrait-hover { 0%, 100% { translate: 0 0; } 50% { translate: 0 -5px; } }
+@keyframes banner-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -4px; } }
+@keyframes skill-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -2px; } }
+@keyframes energy-breathe { 0%, 100% { opacity: .35; } 50% { opacity: .9; } }
+@keyframes section-settle { from { opacity: 0; transform: translateY(16px) rotateX(1deg); } to { opacity: 1; transform: none; } }
+@keyframes signal-flow { to { background-position: 200% center; } }
+
+@media (max-width: 767px) {
+  .portfolio-project-card, .portfolio-now-card, .portfolio-panel, .portfolio-skill, .portfolio-quick-card, .site-shell .system-card, .site-shell .glass-card, .site-shell .project-card, .site-shell .note-card, .site-shell .skill-card { animation-duration: 9s; }
+  .portfolio-project-card:hover, .portfolio-project-card:focus-visible, .portfolio-project-card:active, .portfolio-now-card:hover, .portfolio-panel:hover, .portfolio-skill:hover, .site-shell .system-card:hover, .site-shell .glass-card:not(.banner-tilt):hover, .site-shell .project-card:hover, .site-shell .note-card:hover, .site-shell .skill-card:hover { transform: translateY(-3px) translateZ(4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-home::before, .portfolio-hero, .portfolio-hero::before, .portfolio-hero::after, .portfolio-portrait img, .portfolio-quick-card, .portfolio-project-card, .portfolio-now-card, .portfolio-panel, .portfolio-skill, .portfolio-section-heading, .portfolio-now-heading, .portfolio-lower > *, .portfolio-band, .project-banner::before, .project-banner .banner-slab, .site-shell .system-card, .site-shell .glass-card, .site-shell .project-card, .site-shell .note-card, .site-shell .skill-card { animation: none !important; }
+  .portfolio-project-card, .portfolio-project-card::before, .portfolio-now-card, .portfolio-now-card::before, .portfolio-panel, .portfolio-panel::before, .portfolio-skill, .portfolio-portrait img, .portfolio-project-image img, .project-banner img, .portfolio-cv { transition: none !important; }
+  .portfolio-project-card:hover, .portfolio-project-card:focus-visible, .portfolio-project-card:active, .portfolio-now-card:hover, .portfolio-panel:hover, .portfolio-skill:hover, .portfolio-portrait:hover img { transform: none; translate: none; }
+}
+
+
+/* SAESS cinematic case study: the supplied command-center panorama flows into the story. */
+.saess-project {
+  position: relative;
+  max-width: 76rem;
+  perspective: 1500px;
+  isolation: isolate;
+}
+.saess-project > a:first-child { position: relative; z-index: 2; }
+.saess-project > h1,
+.saess-project > p,
+.saess-project > section,
+.saess-project > div:not(.saess-banner-frame) {
+  position: relative;
+  z-index: 1;
+}
+.saess-project > h1 { max-width: 58rem; text-shadow: 0 14px 40px #0008; }
+.saess-project > p { max-width: 48rem; }
+.saess-project > .saess-banner-frame {
+  position: relative;
+  z-index: 1;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  padding: 0;
+  perspective: 1600px;
+  isolation: isolate;
+}
+.saess-banner-frame::before {
+  position: absolute;
+  z-index: 0;
+  right: 0;
+  bottom: -4.2rem;
+  left: 0;
+  height: 5rem;
+  background: linear-gradient(90deg, transparent 8%, color-mix(in oklab, var(--accent) 55%, transparent) 50%, transparent 92%);
+  opacity: .28;
+  content: "";
+  transform-origin: top center;
+  animation: neural-bridge 3.4s ease-in-out infinite;
+  pointer-events: none;
+}
+.saess-banner-frame::after {
+  position: absolute;
+  z-index: 0;
+  bottom: -5.5rem;
+  left: 50%;
+  width: 1px;
+  height: 6rem;
+  background: linear-gradient(to bottom, var(--neural-cyan), color-mix(in oklab, var(--accent) 42%, transparent), transparent);
+  content: "";
+  transform-origin: top;
+  animation: data-drop 2.2s ease-in-out infinite;
+  pointer-events: none;
+}
+.saess-banner {
+  position: relative;
+  width: 100%;
+  height: min(68vh, 760px);
+  min-height: 430px;
+  overflow: hidden;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #030915;
+  box-shadow: none !important;
+  transform: none !important;
+  isolation: isolate;
+}
+.saess-banner::before {
+  display: none !important;
+}
+.saess-banner::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  background:
+    linear-gradient(180deg, #02081718 20%, #02081724 48%, #020817df 100%),
+    linear-gradient(90deg, #02081764, transparent 32%, transparent 70%, #02081754);
+  content: "";
+  pointer-events: none;
+}
+.saess-banner .banner-slab {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: none;
+  animation: none;
+}
+.saess-banner .banner-slab img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  border: 0;
+  outline: 0;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(1.12) contrast(1.07) brightness(.82);
+  transform: scale(1.015);
+}
+.saess-banner .banner-edge { display: none; }
+.saess-analysis-overlay {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  overflow: hidden;
+  background: linear-gradient(180deg, transparent 47%, #37cfff00 49%, #37cfff32 50%, #37cfff00 51%, transparent 53%);
+  background-size: 100% 220%;
+  animation: cinematic-scan 7s linear infinite;
+  pointer-events: none;
+}
+.saess-hud-top,
+.saess-hud-bottom {
+  position: absolute;
+  right: clamp(1rem, 5vw, 5rem);
+  left: clamp(1rem, 5vw, 5rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: #d9f5ff;
+  font: 500 .68rem/1.4 var(--font-mono);
+  letter-spacing: .16em;
+  text-shadow: 0 1px 12px #00152b;
+}
+.saess-hud-top { top: clamp(1.2rem, 4vh, 3rem); }
+.saess-hud-top i { color: #77dfff; font-style: normal; font-size: .58rem; }
+.saess-hud-bottom { bottom: clamp(1rem, 4vh, 2.5rem); color: #b8eaff; }
+.saess-hud-bottom b { color: #7be8ff; letter-spacing: .5em; animation: signal-blink 1.5s steps(2, end) infinite; }
+.saess-target {
+  position: absolute;
+  display: grid;
+  gap: .3rem;
+  padding: .2rem 0 .2rem .85rem;
+  border-left: 1px solid #54ddffb5;
+  color: #f0fbff;
+  font: 500 .63rem/1.4 var(--font-mono);
+  letter-spacing: .13em;
+  text-shadow: 0 2px 12px #00152b;
+  animation: target-fade 5s ease-in-out infinite;
+}
+.saess-target::before {
+  position: absolute;
+  top: -.35rem;
+  left: -.35rem;
+  width: .65rem;
+  height: .65rem;
+  border-top: 1px solid #72e7ff;
+  border-left: 1px solid #72e7ff;
+  content: "";
+}
+.saess-target i {
+  position: absolute;
+  top: 50%;
+  left: -.3rem;
+  width: .35rem;
+  height: .35rem;
+  border-radius: 50%;
+  background: #7ceaff;
+  box-shadow: 0 0 14px #4bdcff;
+  animation: target-pulse 2s ease-in-out infinite;
+}
+.saess-target small { color: #8bdcf7; font: inherit; font-size: .54rem; opacity: .82; }
+.saess-target-one { top: 31%; left: 17%; }
+.saess-target-two { top: 53%; right: 18%; animation-delay: -1.7s; }
+.saess-target-three { bottom: 25%; left: 36%; animation-delay: -3.2s; }
+
+.saess-project > .mt-5 { max-width: 74rem; margin-right: auto; margin-left: auto; }
+.saess-project > section.saess-data-section {
+  position: relative;
+  max-width: 52rem;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 2rem 1.5rem 0 2rem;
+  border-left: 1px solid color-mix(in oklab, var(--accent) 38%, transparent);
+  transform-style: preserve-3d;
+}
+.saess-data-section::before {
+  position: absolute;
+  top: 2.2rem;
+  left: -.28rem;
+  width: .5rem;
+  height: .5rem;
+  border: 1px solid var(--neural-cyan);
+  border-radius: 50%;
+  background: var(--bg);
+  box-shadow: 0 0 16px color-mix(in oklab, var(--neural-cyan) 75%, transparent);
+  content: "";
+  animation: target-pulse 2.8s ease-in-out infinite;
+}
+.saess-data-section::after {
+  position: absolute;
+  top: 2.45rem;
+  left: 0;
+  width: 1.4rem;
+  height: 1px;
+  background: linear-gradient(90deg, var(--neural-cyan), transparent);
+  content: "";
+  transform-origin: left;
+  animation: signal-flow 2s linear infinite;
+}
+.saess-data-section h2 { text-shadow: 0 0 24px color-mix(in oklab, var(--accent) 22%, transparent); }
+
+@keyframes cinematic-scan { from { background-position: 0 -120%; } to { background-position: 0 120%; } }
+@keyframes neural-bridge { 0%, 100% { opacity: .12; transform: scaleX(.35); } 50% { opacity: .52; transform: scaleX(1); } }
+@keyframes data-drop { 0%, 100% { opacity: .3; transform: scaleY(.35); } 50% { opacity: .9; transform: scaleY(1); } }
+@keyframes signal-blink { 50% { opacity: .28; } }
+@keyframes target-fade { 0%, 100% { opacity: .56; } 50% { opacity: 1; } }
+@keyframes target-pulse { 0%, 100% { box-shadow: 0 0 0 0 #4bdcff00; } 50% { box-shadow: 0 0 0 7px #4bdcff20; } }
+
+@supports (animation-timeline: view()) {
+  .saess-data-section {
+    animation: saess-section-arrive linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 32%;
+  }
+  .saess-banner .banner-slab img {
+    animation: saess-image-drift linear both;
+    animation-timeline: view();
+    animation-range: exit 0% exit 100%;
+  }
+}
+@media (max-width: 767px) {
+  .saess-project { padding-right: 0; padding-left: 0; }
+  .saess-project > a:first-child, .saess-project > h1, .saess-project > p, .saess-project > .mt-5, .saess-project > section, .saess-project > div:not(.saess-banner-frame) { margin-right: 1rem; margin-left: 1rem; }
+  .saess-project > .saess-banner-frame { margin-right: 0; margin-left: 0; }
+  .saess-banner { height: 66vh; min-height: 360px; }
+  .saess-hud-top, .saess-hud-bottom { right: 1rem; left: 1rem; font-size: .55rem; letter-spacing: .1em; }
+  .saess-hud-top i { font-size: .48rem; }
+  .saess-target { font-size: .5rem; }
+  .saess-target-one { left: 8%; }
+  .saess-target-two { right: 8%; }
+  .saess-target-three { left: 28%; }
+  .saess-project > section.saess-data-section { padding-right: .8rem; padding-left: 1.4rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .saess-banner-frame::before, .saess-banner-frame::after, .saess-analysis-overlay, .saess-hud-bottom b, .saess-target, .saess-target i, .saess-data-section::before, .saess-data-section::after { animation: none !important; }
+}
+
+
+@keyframes saess-section-arrive { from { opacity: 0; transform: perspective(1000px) translateY(42px) rotateX(3deg); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes saess-image-drift { from { transform: scale(1.02) translateY(0); } to { transform: scale(1.14) translateY(7%); } }
+
+
+/* Let the actual surveillance scene merge with the scroll-reactive WebGL environment. */
+.saess-banner .banner-slab img {
+  opacity: .86;
+  mix-blend-mode: screen;
+}
+
+
+/* Site-wide cinematic scroll choreography: every route shares the neural world language. */
+.site-shell main > section,
+.site-shell main > article > section,
+.site-shell main > .portfolio-home > section,
+.site-shell main > .portfolio-projects > section,
+.site-shell main .portfolio-section-heading,
+.site-shell main .portfolio-lower > *,
+.site-shell main .portfolio-band,
+.site-shell main .portfolio-project-card,
+.site-shell main .project-card,
+.site-shell main .note-card,
+.site-shell main .skill-card,
+.site-shell main .system-card,
+.site-shell main .glass-card {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+@supports (animation-timeline: view()) {
+  .site-shell main > section,
+  .site-shell main > article > section,
+  .site-shell main .portfolio-section-heading,
+  .site-shell main .portfolio-lower > *,
+  .site-shell main .portfolio-band,
+  .site-shell main .portfolio-project-card,
+  .site-shell main .project-card,
+  .site-shell main .note-card,
+  .site-shell main .skill-card,
+  .site-shell main .system-card,
+  .site-shell main .glass-card {
+    animation: portfolio-depth-arrive linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 34%;
+  }
+  .site-shell main .project-banner img,
+  .site-shell main .banner-slab img,
+  .site-shell main .portfolio-project-image img {
+    animation: portfolio-banner-drift linear both;
+    animation-timeline: view();
+    animation-range: entry 0% exit 100%;
+  }
+}
+@keyframes portfolio-depth-arrive {
+  from { opacity: .32; transform: perspective(1400px) translate3d(0, 48px, -36px) rotateX(3deg); filter: blur(3px); }
+  to { opacity: 1; transform: perspective(1400px) translate3d(0, 0, 0) rotateX(0); filter: none; }
+}
+@keyframes portfolio-banner-drift {
+  from { transform: scale(1.04) translate3d(0, 2%, 0); }
+  to { transform: scale(1.14) translate3d(0, -2%, 0); }
+}
+/* Project imagery merges into the page; animated light paths replace visible card borders. */
+.site-shell main .project-banner,
+.site-shell main .banner-tilt {
+  overflow: hidden;
+  border-color: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent;
+}
+.site-shell main .project-banner::before,
+.site-shell main .banner-tilt::before,
+.site-shell main .project-banner .banner-edge,
+.site-shell main .banner-tilt .banner-edge {
+  display: none !important;
+}
+.site-shell main .project-banner img,
+.site-shell main .banner-slab img {
+  filter: saturate(1.12) contrast(1.06);
+  will-change: transform;
+}
+.site-shell main .project-banner::after,
+.site-shell main .banner-tilt::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 22%, color-mix(in oklab, var(--neural-cyan) 10%, transparent) 48%, transparent 72%);
+  background-size: 220% 100%;
+  animation: neural-light-traverse 9s ease-in-out infinite;
+  content: "";
+  pointer-events: none;
+}
+@keyframes neural-light-traverse {
+  0%, 100% { background-position: 150% 0; opacity: .24; }
+  50% { background-position: -50% 0; opacity: .72; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-shell main > section,
+  .site-shell main > article > section,
+  .site-shell main .portfolio-section-heading,
+  .site-shell main .portfolio-lower > *,
+  .site-shell main .portfolio-band,
+  .site-shell main .portfolio-project-card,
+  .site-shell main .project-card,
+  .site-shell main .note-card,
+  .site-shell main .skill-card,
+  .site-shell main .system-card,
+  .site-shell main .glass-card {
+    animation: none !important;
+    filter: none !important;
+  }
+  .site-shell main .project-banner::after,
+  .site-shell main .banner-tilt::after { animation: none !important; }
+}
+
+/* Pinch feedback for the optional MediaPipe hand cursor. */
+.gesture-cursor[data-pinch="true"] {
+  scale: 1.28;
+  filter: drop-shadow(0 0 10px var(--neural-cyan, var(--accent)));
+}
