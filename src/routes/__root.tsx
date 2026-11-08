@@ -22,7 +22,7 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: `${SITE.name} | AI/ML Engineer | Python, AI & Data` },
+      { title: `${SITE.name} | AI/ML Portfolio in Karachi` },
       { name: "theme-color", content: "#0a0c0b" },
       { name: "application-name", content: SITE.brand },
     ],
