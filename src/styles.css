@@ -2152,6 +2152,11 @@ button:hover .arrow-shift {
 
 /* Site-wide cinematic scroll choreography: every route shares the neural world language. */
 .portfolio-home main > section,
+.portfolio-home main .portfolio-project-card,
+.portfolio-home main .portfolio-now-card,
+.portfolio-home main .portfolio-panel,
+.portfolio-home main .portfolio-skill,
+.portfolio-home main .portfolio-portrait,
 .site-shell main > section,
 .site-shell main > article > section,
 .site-shell main > .portfolio-home > section,
@@ -2170,6 +2175,11 @@ button:hover .arrow-shift {
 }
 @supports (animation-timeline: view()) {
   .portfolio-home main > section,
+.portfolio-home main .portfolio-project-card,
+.portfolio-home main .portfolio-now-card,
+.portfolio-home main .portfolio-panel,
+.portfolio-home main .portfolio-skill,
+.portfolio-home main .portfolio-portrait,
   .site-shell main > section,
   .site-shell main > article > section,
   .site-shell main .portfolio-section-heading,
@@ -2185,6 +2195,8 @@ button:hover .arrow-shift {
     animation-timeline: view();
     animation-range: entry 0% cover 34%;
   }
+  .portfolio-home main .portfolio-project-image img,
+  .portfolio-home main .portfolio-portrait img,
   .site-shell main .project-banner img,
   .site-shell main .banner-slab img,
   .site-shell main .portfolio-project-image img {
@@ -2241,6 +2253,11 @@ button:hover .arrow-shift {
 @media (prefers-reduced-motion: reduce) {
   @supports (animation-timeline: view()) {
     .portfolio-home main > section,
+.portfolio-home main .portfolio-project-card,
+.portfolio-home main .portfolio-now-card,
+.portfolio-home main .portfolio-panel,
+.portfolio-home main .portfolio-skill,
+.portfolio-home main .portfolio-portrait,
     .site-shell main > section,
     .site-shell main > article > section,
     .site-shell main .portfolio-section-heading,
