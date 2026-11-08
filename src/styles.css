@@ -2127,3 +2127,10 @@ button:hover .arrow-shift {
 
 @keyframes saess-section-arrive { from { opacity: 0; transform: perspective(1000px) translateY(42px) rotateX(3deg); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
 @keyframes saess-image-drift { from { transform: scale(1.02) translateY(0); } to { transform: scale(1.14) translateY(7%); } }
+
+
+/* Let the actual surveillance scene merge with the scroll-reactive WebGL environment. */
+.saess-banner .banner-slab img {
+  opacity: .86;
+  mix-blend-mode: screen;
+}
