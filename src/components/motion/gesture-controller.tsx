@@ -65,15 +65,28 @@ export function GestureController() {
         setStatus("Loading hand tracking");
         const vision = await import(/* @vite-ignore */ VISION_MODULE);
         const files = await vision.FilesetResolver.forVisionTasks(VISION_WASM);
-        landmarker = await vision.HandLandmarker.createFromOptions(files, {
-          baseOptions: { modelAssetPath: HAND_MODEL, delegate: "GPU" },
+        const options = {
           runningMode: "VIDEO",
           numHands: 1,
           minHandDetectionConfidence: 0.7,
           minHandPresenceConfidence: 0.65,
           minTrackingConfidence: 0.65,
-        }) as HandLandmarker;
-        if (stopped) return;
+        };
+        try {
+          landmarker = await vision.HandLandmarker.createFromOptions(files, {
+            ...options,
+            baseOptions: { modelAssetPath: HAND_MODEL, delegate: "GPU" },
+          }) as HandLandmarker;
+        } catch {
+          landmarker = await vision.HandLandmarker.createFromOptions(files, {
+            ...options,
+            baseOptions: { modelAssetPath: HAND_MODEL, delegate: "CPU" },
+          }) as HandLandmarker;
+        }
+        if (stopped) {
+          landmarker.close();
+          return;
+        }
         setStatus("Show your hand · pinch to click · reach screen edges to scroll");
 
         const tick = (now: number) => {
