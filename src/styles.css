@@ -2134,3 +2134,107 @@ button:hover .arrow-shift {
   opacity: .86;
   mix-blend-mode: screen;
 }
+
+
+/* Site-wide cinematic scroll choreography: every route shares the neural world language. */
+.site-shell main > section,
+.site-shell main > article > section,
+.site-shell main > .portfolio-home > section,
+.site-shell main > .portfolio-projects > section,
+.site-shell main .portfolio-section-heading,
+.site-shell main .portfolio-lower > *,
+.site-shell main .portfolio-band,
+.site-shell main .portfolio-project-card,
+.site-shell main .project-card,
+.site-shell main .note-card,
+.site-shell main .skill-card,
+.site-shell main .system-card,
+.site-shell main .glass-card {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+@supports (animation-timeline: view()) {
+  .site-shell main > section,
+  .site-shell main > article > section,
+  .site-shell main .portfolio-section-heading,
+  .site-shell main .portfolio-lower > *,
+  .site-shell main .portfolio-band,
+  .site-shell main .portfolio-project-card,
+  .site-shell main .project-card,
+  .site-shell main .note-card,
+  .site-shell main .skill-card,
+  .site-shell main .system-card,
+  .site-shell main .glass-card {
+    animation: portfolio-depth-arrive linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 34%;
+  }
+  .site-shell main .project-banner img,
+  .site-shell main .banner-slab img,
+  .site-shell main .portfolio-project-image img {
+    animation: portfolio-banner-drift linear both;
+    animation-timeline: view();
+    animation-range: entry 0% exit 100%;
+  }
+}
+@keyframes portfolio-depth-arrive {
+  from { opacity: .32; transform: perspective(1400px) translate3d(0, 48px, -36px) rotateX(3deg); filter: blur(3px); }
+  to { opacity: 1; transform: perspective(1400px) translate3d(0, 0, 0) rotateX(0); filter: none; }
+}
+@keyframes portfolio-banner-drift {
+  from { transform: scale(1.04) translate3d(0, 2%, 0); }
+  to { transform: scale(1.14) translate3d(0, -2%, 0); }
+}
+/* Project imagery merges into the page; animated light paths replace visible card borders. */
+.site-shell main .project-banner,
+.site-shell main .banner-tilt {
+  overflow: hidden;
+  border-color: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent;
+}
+.site-shell main .project-banner::before,
+.site-shell main .banner-tilt::before,
+.site-shell main .project-banner .banner-edge,
+.site-shell main .banner-tilt .banner-edge {
+  display: none !important;
+}
+.site-shell main .project-banner img,
+.site-shell main .banner-slab img {
+  filter: saturate(1.12) contrast(1.06);
+  will-change: transform;
+}
+.site-shell main .project-banner::after,
+.site-shell main .banner-tilt::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 22%, color-mix(in oklab, var(--neural-cyan) 10%, transparent) 48%, transparent 72%);
+  background-size: 220% 100%;
+  animation: neural-light-traverse 9s ease-in-out infinite;
+  content: "";
+  pointer-events: none;
+}
+@keyframes neural-light-traverse {
+  0%, 100% { background-position: 150% 0; opacity: .24; }
+  50% { background-position: -50% 0; opacity: .72; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-shell main > section,
+  .site-shell main > article > section,
+  .site-shell main .portfolio-section-heading,
+  .site-shell main .portfolio-lower > *,
+  .site-shell main .portfolio-band,
+  .site-shell main .portfolio-project-card,
+  .site-shell main .project-card,
+  .site-shell main .note-card,
+  .site-shell main .skill-card,
+  .site-shell main .system-card,
+  .site-shell main .glass-card {
+    animation: none !important;
+    filter: none !important;
+  }
+  .site-shell main .project-banner::after,
+  .site-shell main .banner-tilt::after { animation: none !important; }
+}
