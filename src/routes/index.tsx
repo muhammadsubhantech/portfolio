@@ -25,9 +25,13 @@ import {
 import { createFileRoute } from "@tanstack/react-router";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { PROJECTS } from "@/data/projects";
-import { SITE, SOCIALS } from "@/data/site";
+import { SEO, SITE, SOCIALS } from "@/data/site";
+import { pageHead } from "@/lib/seo";
 
-export const Route = createFileRoute("/")({ component: Home });
+export const Route = createFileRoute("/")({
+  head: () => pageHead({ ...SEO.home, path: "/" }),
+  component: Home,
+});
 
 const navigation = [
   { label: "Home", href: "#home" },
@@ -122,9 +126,9 @@ function Home() {
           </div>
 
           <div className="portfolio-intro">
-            <span className="portfolio-eyebrow">AI / ML Developer</span>
+            <span className="portfolio-eyebrow">Muhammad Subhan Tech</span>
             <h1 id="hero-title">Muhammad <span>Subhan</span></h1>
-            <p className="portfolio-role">AI/ML Developer · Agentic AI · Python · Data Engineering</p>
+            <p className="portfolio-role">Aspiring AI/ML Engineer · Agentic AI · Python · Data Engineering</p>
             <p className="portfolio-lead">
               AI and Cloud Data Engineering student exploring practical AI/ML, computer vision and
               data-driven applications. I turn what I learn into useful, hands-on projects.
