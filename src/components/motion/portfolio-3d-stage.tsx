@@ -340,7 +340,6 @@ function mountNeuralWorld(host: HTMLDivElement, renderer: THREE.WebGLRenderer, r
 
 /** A shared scroll-linked neural 3D world used across every portfolio route. */
 export function Portfolio3DStage() {
-  const pathname = useRouterState({ select: (state) => state.location.pathname });
   const hostRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
