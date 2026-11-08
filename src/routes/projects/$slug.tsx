@@ -66,7 +66,7 @@ function ProjectDetail() {
         <h1 className="mt-3 font-display text-4xl text-fg md:text-6xl">{project.title}</h1>
         <p className="mt-4 text-lg text-muted">{project.oneLiner}</p>
         <div className="mt-8 [perspective:1200px]">
-          <div className="banner-tilt overflow-hidden rounded-[var(--radius-md)]">
+          <div className={`banner-tilt project-banner overflow-hidden rounded-[var(--radius-md)]${project.slug === "saess-smart-emergency-surveillance" ? " project-banner--saess" : ""}`}>
             <div className="banner-slab">
               <span className="banner-edge" aria-hidden="true" />
               <img
