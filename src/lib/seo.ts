@@ -33,6 +33,7 @@ export function personJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "Person",
+    "@id": absoluteUrl("/#person"),
     name: SITE.name,
     alternateName: SITE.brand,
     jobTitle: SITE.titleRole,
@@ -46,6 +47,20 @@ export function personJsonLd() {
     url: absoluteUrl("/about"),
     knowsAbout: [...SITE.interests],
     sameAs: SOCIALS.map((item) => item.href),
+  };
+}
+
+export function profilePageJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "@id": absoluteUrl("/about#profile"),
+    url: absoluteUrl("/about"),
+    name: `About ${SITE.name}`,
+    mainEntity: {
+      "@type": "Person",
+      "@id": absoluteUrl("/#person"),
+    },
   };
 }
 
@@ -92,7 +107,12 @@ export function articleJsonLd(opts: {
     description: opts.description,
     datePublished: opts.date,
     dateModified: opts.date,
-    author: { "@type": "Person", name: SITE.name },
+    author: {
+      "@type": "Person",
+      "@id": absoluteUrl("/#person"),
+      name: SITE.name,
+      url: absoluteUrl("/about"),
+    },
     image: absoluteUrl(opts.image),
     mainEntityOfPage: absoluteUrl(opts.path),
   };
