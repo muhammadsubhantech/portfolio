@@ -6,7 +6,7 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { Button } from "@/components/ui/button";
 import { SITE } from "@/data/site";
 import { SEO } from "@/data/site";
-import { breadcrumbJsonLd, pageHead } from "@/lib/seo";
+import { breadcrumbJsonLd, pageHead, profilePageJsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/about")({
   head: () => pageHead({ ...SEO.about, path: "/about" }),
@@ -27,6 +27,7 @@ const FOCUS = [
 function AboutPage() {
   return (
     <SiteShell>
+      <JsonLd data={profilePageJsonLd()} />
       <JsonLd
         data={breadcrumbJsonLd([
           { name: "Home", path: "/" },
