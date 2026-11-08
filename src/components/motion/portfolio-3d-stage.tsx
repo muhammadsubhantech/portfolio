@@ -237,7 +237,7 @@ function mountSaessScene(host: HTMLDivElement, renderer: THREE.WebGLRenderer, re
   };
   const onResize = () => {
     camera.aspect = host.clientWidth / Math.max(host.clientHeight, 1);
-    camera.position.z = window.innerWidth < 720 ? 28 : 15;
+    camera.position.z = window.innerWidth < 720 ? 28 : 12;
     camera.updateProjectionMatrix();
     renderer.setSize(host.clientWidth, host.clientHeight);
   };
