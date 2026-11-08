@@ -250,8 +250,10 @@ function mountNeuralWorld(host: HTMLDivElement, renderer: THREE.WebGLRenderer, r
   const render = () => {
     frame = 0;
     const t = clock.getElapsedTime();
-    const formation = reducedMotion ? 0 : smooth(0.08, 0.74, progress);
-    const disperse = reducedMotion ? 0 : smooth(0.2, 0.52, progress) * (1 - smooth(0.83, 1, progress)) * 0.25;
+    // Scroll-driven scene transitions are user-controlled, so they remain active even
+    // when the OS asks us to reduce always-on motion.
+    const formation = smooth(0.08, 0.74, progress);
+    const disperse = smooth(0.2, 0.52, progress) * (1 - smooth(0.83, 1, progress)) * (reducedMotion ? 0.08 : 0.25);
     actors.forEach((actor, index) => {
       actor.group.position.lerpVectors(actor.home, actor.banner, formation);
       actor.group.position.x += Math.sin(t * 0.42 + actor.phase) * (0.035 + disperse * 0.18);
