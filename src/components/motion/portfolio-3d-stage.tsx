@@ -204,7 +204,7 @@ function mountNeuralWorld(host: HTMLDivElement, renderer: THREE.WebGLRenderer, r
 
   const links: THREE.Line[] = [];
   const packets: THREE.Mesh[] = [];
-  for (let i = 0; i < 9; i += 1) {
+  for (let i = 0; i < actors.length + feeds.length; i += 1) {
     const geometry = new THREE.BufferGeometry();
     const vertices = new Float32Array(17 * 3);
     geometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
