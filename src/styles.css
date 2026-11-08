@@ -2238,3 +2238,9 @@ button:hover .arrow-shift {
   .site-shell main .project-banner::after,
   .site-shell main .banner-tilt::after { animation: none !important; }
 }
+
+/* Pinch feedback for the optional MediaPipe hand cursor. */
+.gesture-cursor[data-pinch="true"] {
+  scale: 1.28;
+  filter: drop-shadow(0 0 10px var(--neural-cyan, var(--accent)));
+}
