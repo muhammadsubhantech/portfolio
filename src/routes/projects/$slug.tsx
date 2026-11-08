@@ -78,11 +78,11 @@ function ProjectDetail() {
             </div>
             {isSaess ? (
               <div className="saess-analysis-overlay" aria-hidden="true">
-                <span className="saess-hud-top">SAESS / VISION SYSTEM <i>CONCEPT VISUALIZATION</i></span>
+                <span className="saess-hud-top">SAESS / VISION SYSTEM <i>ILLUSTRATIVE CONCEPT · NOT LIVE</i></span>
                 <span className="saess-target saess-target-one"><i />VEHICLE ANALYSIS<small>YOLO · PLANNED</small></span>
                 <span className="saess-target saess-target-two"><i />ROAD EVENT<small>OPENCV · PLANNED</small></span>
                 <span className="saess-target saess-target-three"><i />SAFETY SIGNAL<small>IN DEVELOPMENT</small></span>
-                <span className="saess-hud-bottom">COMPUTER VISION <b>•••</b> HUMAN REVIEW REQUIRED</span>
+                <span className="saess-hud-bottom">COMPUTER VISION <b>•••</b> SAMPLE VISUALIZATION</span>
               </div>
             ) : null}
           </div>
