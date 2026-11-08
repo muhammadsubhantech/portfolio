@@ -91,9 +91,9 @@ export const TECH_PILLS = ["Python", "SQL", "AI/ML", "Data Engineering"] as cons
 
 export const SEO = {
   home: {
-    title: "Muhammad Subhan | AI/ML Engineer | Python, AI & Data",
+    title: "Muhammad Subhan | AI/ML Portfolio in Karachi",
     description:
-      "Explore Muhammad Subhan's AI/ML portfolio featuring Python, Machine Learning, Agentic AI, Data Analysis, SQL and Data Engineering projects.",
+      "Explore the official portfolio of Muhammad Subhan, an aspiring AI/ML Engineer in Karachi, Pakistan. View hands-on Python, machine learning, computer vision and data engineering projects.",
   },
   about: {
     title: "About Muhammad Subhan | Aspiring AI/ML Engineer",
