@@ -224,7 +224,7 @@ export function GestureController() {
           {enabled ? "Turn off" : "Use gestures"}
           {!enabled && <Camera aria-hidden="true" />}
         </button>
-        {enabled && status !== "This browser cannot access a camera." && status !== "Requesting camera access" && status !== "Loading hand tracking" && status !== "Show your hand · pinch to click · reach screen edges to scroll" ? (
+        {enabled && status !== "This browser cannot access a camera." && status !== "Requesting camera access" && !status.startsWith("Loading hand tracking") && status !== "Show your hand · pinch to click · reach screen edges to scroll" ? (
           <button type="button" className="gesture-retry" onClick={() => setRetryCount((value) => value + 1)}>
             Retry
           </button>
