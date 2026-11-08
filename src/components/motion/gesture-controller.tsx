@@ -23,15 +23,20 @@ type GestureState = {
 export function GestureController() {
   const [enabled, setEnabled] = useState(false);
   const [status, setStatus] = useState("Camera off");
+  const [ready, setReady] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
   const cursorElement = useRef<HTMLDivElement>(null);
   const cursorRef = useRef({ x: 0, y: 0 });
   const gestureRef = useRef<GestureState>({ lastSeen: 0, pinchDown: false, lastClick: 0 });
 
   useEffect(() => {
-    if (!enabled) return;
+    if (!enabled) {
+      setReady(false);
+      return;
+    }
+    setReady(false);
     if (!navigator.mediaDevices?.getUserMedia) {
-      setStatus("Camera unavailable in this browser");
-      setEnabled(false);
+      setStatus("This browser cannot access a camera.");
       return;
     }
 
@@ -87,6 +92,7 @@ export function GestureController() {
           landmarker.close();
           return;
         }
+        setReady(true);
         setStatus("Show your hand · pinch to click · reach screen edges to scroll");
 
         const tick = (now: number) => {
@@ -151,10 +157,21 @@ export function GestureController() {
           frame = window.requestAnimationFrame(tick);
         };
         frame = window.requestAnimationFrame(tick);
-      } catch {
+      } catch (error) {
         if (!stopped) {
-          setStatus("Hand tracking unavailable · check camera access and connection");
-          setEnabled(false);
+          setReady(false);
+          stream?.getTracks().forEach((track) => track.stop());
+          stream = undefined;
+          video.srcObject = null;
+          const name = error instanceof DOMException ? error.name : "";
+          const message = name === "NotAllowedError" || name === "SecurityError"
+            ? "Camera access blocked · allow it in site settings, then retry."
+            : name === "NotFoundError"
+              ? "No camera detected · connect a camera, then retry."
+              : name === "NotReadableError"
+                ? "Camera is busy · close other camera apps, then retry."
+                : "Hand tracking failed to load · check your connection, then retry.";
+          setStatus(message);
         }
       }
     };
@@ -172,13 +189,13 @@ export function GestureController() {
       }
       setStatus("Camera off");
     };
-  }, [enabled]);
+  }, [enabled, retryCount]);
 
   return (
     <>
       <aside className="site-gesture" aria-label="Site gesture controller">
         <span className="site-gesture-status" aria-live="polite">
-          <span className={enabled ? "gesture-indicator is-live" : "gesture-indicator"} />
+          <span className={ready ? "gesture-indicator is-live" : "gesture-indicator"} />
           {status}
         </span>
         <button
@@ -193,6 +210,11 @@ export function GestureController() {
           {enabled ? "Turn off" : "Use gestures"}
           {!enabled && <Camera aria-hidden="true" />}
         </button>
+        {enabled && status !== "This browser cannot access a camera." && status !== "Requesting camera access" && status !== "Loading hand tracking" && status !== "Show your hand · pinch to click · reach screen edges to scroll" ? (
+          <button type="button" className="gesture-retry" onClick={() => setRetryCount((value) => value + 1)}>
+            Retry
+          </button>
+        ) : null}
       </aside>
       <div ref={cursorElement} className="gesture-cursor" data-visible="false" data-pinch="false" aria-hidden="true" />
     </>
