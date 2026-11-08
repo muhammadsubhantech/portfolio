@@ -1884,3 +1884,242 @@ button:hover .arrow-shift {
   .portfolio-project-card, .portfolio-project-card::before, .portfolio-now-card, .portfolio-now-card::before, .portfolio-panel, .portfolio-panel::before, .portfolio-skill, .portfolio-portrait img, .portfolio-project-image img, .project-banner img, .portfolio-cv { transition: none !important; }
   .portfolio-project-card:hover, .portfolio-project-card:focus-visible, .portfolio-project-card:active, .portfolio-now-card:hover, .portfolio-panel:hover, .portfolio-skill:hover, .portfolio-portrait:hover img { transform: none; translate: none; }
 }
+
+
+/* SAESS cinematic case study: the supplied command-center panorama flows into the story. */
+.saess-project {
+  position: relative;
+  max-width: 76rem;
+  perspective: 1500px;
+  isolation: isolate;
+}
+.saess-project > a:first-child { position: relative; z-index: 2; }
+.saess-project > h1,
+.saess-project > p,
+.saess-project > section,
+.saess-project > div:not(.saess-banner-frame) {
+  position: relative;
+  z-index: 1;
+}
+.saess-project > h1 { max-width: 58rem; text-shadow: 0 14px 40px #0008; }
+.saess-project > p { max-width: 48rem; }
+.saess-project > .saess-banner-frame {
+  position: relative;
+  z-index: 1;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  padding: 0;
+  perspective: 1600px;
+  isolation: isolate;
+}
+.saess-banner-frame::before {
+  position: absolute;
+  z-index: 0;
+  right: 0;
+  bottom: -4.2rem;
+  left: 0;
+  height: 5rem;
+  background: linear-gradient(90deg, transparent 8%, color-mix(in oklab, var(--accent) 55%, transparent) 50%, transparent 92%);
+  opacity: .28;
+  content: "";
+  transform-origin: top center;
+  animation: neural-bridge 3.4s ease-in-out infinite;
+  pointer-events: none;
+}
+.saess-banner-frame::after {
+  position: absolute;
+  z-index: 0;
+  bottom: -5.5rem;
+  left: 50%;
+  width: 1px;
+  height: 6rem;
+  background: linear-gradient(to bottom, var(--neural-cyan), color-mix(in oklab, var(--accent) 42%, transparent), transparent);
+  content: "";
+  transform-origin: top;
+  animation: data-drop 2.2s ease-in-out infinite;
+  pointer-events: none;
+}
+.saess-banner {
+  position: relative;
+  width: 100%;
+  height: min(68vh, 760px);
+  min-height: 430px;
+  overflow: hidden;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #030915;
+  box-shadow: none !important;
+  transform: none !important;
+  isolation: isolate;
+}
+.saess-banner::before {
+  display: none !important;
+}
+.saess-banner::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  background:
+    linear-gradient(180deg, #02081718 20%, #02081724 48%, #020817df 100%),
+    linear-gradient(90deg, #02081764, transparent 32%, transparent 70%, #02081754);
+  content: "";
+  pointer-events: none;
+}
+.saess-banner .banner-slab {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: none;
+  animation: none;
+}
+.saess-banner .banner-slab img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  border: 0;
+  outline: 0;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(1.12) contrast(1.07) brightness(.82);
+  transform: scale(1.015);
+}
+.saess-banner .banner-edge { display: none; }
+.saess-analysis-overlay {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  overflow: hidden;
+  background: linear-gradient(180deg, transparent 47%, #37cfff00 49%, #37cfff32 50%, #37cfff00 51%, transparent 53%);
+  background-size: 100% 220%;
+  animation: cinematic-scan 7s linear infinite;
+  pointer-events: none;
+}
+.saess-hud-top,
+.saess-hud-bottom {
+  position: absolute;
+  right: clamp(1rem, 5vw, 5rem);
+  left: clamp(1rem, 5vw, 5rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: #d9f5ff;
+  font: 500 .68rem/1.4 var(--font-mono);
+  letter-spacing: .16em;
+  text-shadow: 0 1px 12px #00152b;
+}
+.saess-hud-top { top: clamp(1.2rem, 4vh, 3rem); }
+.saess-hud-top i { color: #77dfff; font-style: normal; font-size: .58rem; }
+.saess-hud-bottom { bottom: clamp(1rem, 4vh, 2.5rem); color: #b8eaff; }
+.saess-hud-bottom b { color: #7be8ff; letter-spacing: .5em; animation: signal-blink 1.5s steps(2, end) infinite; }
+.saess-target {
+  position: absolute;
+  display: grid;
+  gap: .3rem;
+  padding: .2rem 0 .2rem .85rem;
+  border-left: 1px solid #54ddffb5;
+  color: #f0fbff;
+  font: 500 .63rem/1.4 var(--font-mono);
+  letter-spacing: .13em;
+  text-shadow: 0 2px 12px #00152b;
+  animation: target-fade 5s ease-in-out infinite;
+}
+.saess-target::before {
+  position: absolute;
+  top: -.35rem;
+  left: -.35rem;
+  width: .65rem;
+  height: .65rem;
+  border-top: 1px solid #72e7ff;
+  border-left: 1px solid #72e7ff;
+  content: "";
+}
+.saess-target i {
+  position: absolute;
+  top: 50%;
+  left: -.3rem;
+  width: .35rem;
+  height: .35rem;
+  border-radius: 50%;
+  background: #7ceaff;
+  box-shadow: 0 0 14px #4bdcff;
+  animation: target-pulse 2s ease-in-out infinite;
+}
+.saess-target small { color: #8bdcf7; font: inherit; font-size: .54rem; opacity: .82; }
+.saess-target-one { top: 31%; left: 17%; }
+.saess-target-two { top: 53%; right: 18%; animation-delay: -1.7s; }
+.saess-target-three { bottom: 25%; left: 36%; animation-delay: -3.2s; }
+
+.saess-project > .mt-5 { max-width: 74rem; margin-right: auto; margin-left: auto; }
+.saess-project > section.saess-data-section {
+  position: relative;
+  max-width: 52rem;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 2rem 1.5rem 0 2rem;
+  border-left: 1px solid color-mix(in oklab, var(--accent) 38%, transparent);
+  transform-style: preserve-3d;
+}
+.saess-data-section::before {
+  position: absolute;
+  top: 2.2rem;
+  left: -.28rem;
+  width: .5rem;
+  height: .5rem;
+  border: 1px solid var(--neural-cyan);
+  border-radius: 50%;
+  background: var(--bg);
+  box-shadow: 0 0 16px color-mix(in oklab, var(--neural-cyan) 75%, transparent);
+  content: "";
+  animation: target-pulse 2.8s ease-in-out infinite;
+}
+.saess-data-section::after {
+  position: absolute;
+  top: 2.45rem;
+  left: 0;
+  width: 1.4rem;
+  height: 1px;
+  background: linear-gradient(90deg, var(--neural-cyan), transparent);
+  content: "";
+  transform-origin: left;
+  animation: signal-flow 2s linear infinite;
+}
+.saess-data-section h2 { text-shadow: 0 0 24px color-mix(in oklab, var(--accent) 22%, transparent); }
+
+@keyframes cinematic-scan { from { background-position: 0 -120%; } to { background-position: 0 120%; } }
+@keyframes neural-bridge { 0%, 100% { opacity: .12; transform: scaleX(.35); } 50% { opacity: .52; transform: scaleX(1); } }
+@keyframes data-drop { 0%, 100% { opacity: .3; transform: scaleY(.35); } 50% { opacity: .9; transform: scaleY(1); } }
+@keyframes signal-blink { 50% { opacity: .28; } }
+@keyframes target-fade { 0%, 100% { opacity: .56; } 50% { opacity: 1; } }
+@keyframes target-pulse { 0%, 100% { box-shadow: 0 0 0 0 #4bdcff00; } 50% { box-shadow: 0 0 0 7px #4bdcff20; } }
+
+@supports (animation-timeline: view()) {
+  .saess-data-section {
+    animation: saess-section-arrive linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 32%;
+  }
+  .saess-banner .banner-slab img {
+    animation: saess-image-drift linear both;
+    animation-timeline: view();
+    animation-range: exit 0% exit 100%;
+  }
+}
+@media (max-width: 767px) {
+  .saess-project { padding-right: 0; padding-left: 0; }
+  .saess-project > a:first-child, .saess-project > h1, .saess-project > p, .saess-project > .mt-5, .saess-project > section, .saess-project > div:not(.saess-banner-frame) { margin-right: 1rem; margin-left: 1rem; }
+  .saess-project > .saess-banner-frame { margin-right: 0; margin-left: 0; }
+  .saess-banner { height: 66vh; min-height: 360px; }
+  .saess-hud-top, .saess-hud-bottom { right: 1rem; left: 1rem; font-size: .55rem; letter-spacing: .1em; }
+  .saess-hud-top i { font-size: .48rem; }
+  .saess-target { font-size: .5rem; }
+  .saess-target-one { left: 8%; }
+  .saess-target-two { right: 8%; }
+  .saess-target-three { left: 28%; }
+  .saess-project > section.saess-data-section { padding-right: .8rem; padding-left: 1.4rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .saess-banner-frame::before, .saess-banner-frame::after, .saess-analysis-overlay, .saess-hud-bottom b, .saess-target, .saess-target i, .saess-data-section::before, .saess-data-section::after { animation: none !important; }
+}
