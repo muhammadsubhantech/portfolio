@@ -93,12 +93,12 @@ export const SEO = {
   home: {
     title: "Muhammad Subhan | AI/ML Portfolio in Karachi",
     description:
-      "Explore the official portfolio of Muhammad Subhan, an aspiring AI/ML Engineer in Karachi, Pakistan. View hands-on Python, machine learning, computer vision and data engineering projects.",
+      "Portfolio of Muhammad Subhan, an aspiring AI/ML Engineer in Karachi, Pakistan. Explore Python, machine learning, computer vision and data engineering projects.",
   },
   about: {
     title: "About Muhammad Subhan | Aspiring AI/ML Engineer",
     description:
-      "Meet Muhammad Subhan, an aspiring AI/ML Engineer in Karachi, Pakistan focused on Artificial Intelligence, Machine Learning, Agentic AI, Python and Data Engineering.",
+      "About Muhammad Subhan, an aspiring AI/ML Engineer in Karachi, Pakistan learning machine learning, Agentic AI, Python and data engineering.",
   },
   projects: {
     title: "AI & Machine Learning Projects | Muhammad Subhan",
