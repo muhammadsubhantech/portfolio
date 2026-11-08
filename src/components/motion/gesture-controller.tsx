@@ -2,8 +2,10 @@ import { Camera, Hand, Power } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const INTERACTIVE = 'a[href], button:not([data-gesture-toggle]), [role="button"], [role="tab"], input:not([type="hidden"]), select, textarea';
-const VISION_MODULE = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/vision_bundle.mjs";
-const VISION_WASM = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/wasm";
+const VISION_CDNS = [
+  "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22",
+  "https://unpkg.com/@mediapipe/tasks-vision@0.10.22",
+];
 const HAND_MODEL = "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task";
 
 type HandLandmarker = {
@@ -68,8 +70,6 @@ export function GestureController() {
         await video.play();
 
         setStatus("Loading hand tracking");
-        const vision = await import(/* @vite-ignore */ VISION_MODULE);
-        const files = await vision.FilesetResolver.forVisionTasks(VISION_WASM);
         const options = {
           runningMode: "VIDEO",
           numHands: 1,
@@ -77,17 +77,31 @@ export function GestureController() {
           minHandPresenceConfidence: 0.65,
           minTrackingConfidence: 0.65,
         };
-        try {
-          landmarker = await vision.HandLandmarker.createFromOptions(files, {
-            ...options,
-            baseOptions: { modelAssetPath: HAND_MODEL, delegate: "GPU" },
-          }) as HandLandmarker;
-        } catch {
-          landmarker = await vision.HandLandmarker.createFromOptions(files, {
-            ...options,
-            baseOptions: { modelAssetPath: HAND_MODEL, delegate: "CPU" },
-          }) as HandLandmarker;
+        let loadError: unknown;
+        for (const cdn of VISION_CDNS) {
+          try {
+            setStatus("Loading hand tracking · connecting");
+            const vision = await import(/* @vite-ignore */ `${cdn}/vision_bundle.mjs`);
+            setStatus("Loading hand tracking · preparing model");
+            const files = await vision.FilesetResolver.forVisionTasks(`${cdn}/wasm`);
+            try {
+              landmarker = await vision.HandLandmarker.createFromOptions(files, {
+                ...options,
+                baseOptions: { modelAssetPath: HAND_MODEL, delegate: "GPU" },
+              }) as HandLandmarker;
+            } catch {
+              landmarker = await vision.HandLandmarker.createFromOptions(files, {
+                ...options,
+                baseOptions: { modelAssetPath: HAND_MODEL, delegate: "CPU" },
+              }) as HandLandmarker;
+            }
+            loadError = undefined;
+            break;
+          } catch (error) {
+            loadError = error;
+          }
         }
+        if (!landmarker) throw loadError ?? new Error("Both hand-tracking CDNs failed.");
         if (stopped) {
           landmarker.close();
           return;
@@ -170,7 +184,7 @@ export function GestureController() {
               ? "No camera detected · connect a camera, then retry."
               : name === "NotReadableError"
                 ? "Camera is busy · close other camera apps, then retry."
-                : "Hand tracking failed to load · check your connection, then retry.";
+                : `Hand tracking failed to load · ${error instanceof Error ? error.message.slice(0, 90) : "network or model error"} · retry.`;
           setStatus(message);
         }
       }
