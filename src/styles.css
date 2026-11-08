@@ -858,6 +858,18 @@ button:hover .arrow-shift {
   color: var(--accent);
 }
 
+.gesture-retry {
+  min-height: 2.35rem;
+  border: 1px solid color-mix(in oklab, var(--accent) 32%, var(--border));
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--accent) 10%, var(--surface));
+  padding: 0.45rem 0.7rem;
+  color: var(--fg);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+.gesture-retry:hover { background: color-mix(in oklab, var(--accent) 20%, var(--surface)); }
+
 .site-gesture {
   position: fixed;
   left: max(1rem, env(safe-area-inset-left));
@@ -1942,8 +1954,9 @@ button:hover .arrow-shift {
 .saess-banner {
   position: relative;
   width: 100%;
-  height: min(68vh, 760px);
-  min-height: 430px;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  min-height: 0;
   overflow: hidden;
   border: 0 !important;
   border-radius: 0 !important;
@@ -1982,7 +1995,7 @@ button:hover .arrow-shift {
   outline: 0;
   object-fit: cover;
   object-position: center;
-  filter: saturate(1.12) contrast(1.07) brightness(.82);
+  filter: saturate(1.12) contrast(1.07) brightness(.9);
   transform: scale(1.015);
 }
 .saess-banner .banner-edge { display: none; }
@@ -2011,6 +2024,7 @@ button:hover .arrow-shift {
   text-shadow: 0 1px 12px #00152b;
 }
 .saess-hud-top { top: clamp(1.2rem, 4vh, 3rem); }
+.saess-disclaimer { justify-content: flex-end; }
 .saess-hud-top i { color: #77dfff; font-style: normal; font-size: .58rem; }
 .saess-hud-bottom { bottom: clamp(1rem, 4vh, 2.5rem); color: #b8eaff; }
 .saess-hud-bottom b { color: #7be8ff; letter-spacing: .5em; animation: signal-blink 1.5s steps(2, end) infinite; }
@@ -2111,7 +2125,7 @@ button:hover .arrow-shift {
   .saess-project { padding-right: 0; padding-left: 0; }
   .saess-project > a:first-child, .saess-project > h1, .saess-project > p, .saess-project > .mt-5, .saess-project > section, .saess-project > div:not(.saess-banner-frame) { margin-right: 1rem; margin-left: 1rem; }
   .saess-project > .saess-banner-frame { margin-right: 0; margin-left: 0; }
-  .saess-banner { height: 66vh; min-height: 360px; }
+  .saess-banner { height: auto; aspect-ratio: 16 / 9; min-height: 0; }
   .saess-hud-top, .saess-hud-bottom { right: 1rem; left: 1rem; font-size: .55rem; letter-spacing: .1em; }
   .saess-hud-top i { font-size: .48rem; }
   .saess-target { font-size: .5rem; }
@@ -2131,12 +2145,13 @@ button:hover .arrow-shift {
 
 /* Let the actual surveillance scene merge with the scroll-reactive WebGL environment. */
 .saess-banner .banner-slab img {
-  opacity: .86;
+  opacity: .68;
   mix-blend-mode: screen;
 }
 
 
 /* Site-wide cinematic scroll choreography: every route shares the neural world language. */
+.portfolio-home main > section,
 .site-shell main > section,
 .site-shell main > article > section,
 .site-shell main > .portfolio-home > section,
@@ -2154,6 +2169,7 @@ button:hover .arrow-shift {
   backface-visibility: hidden;
 }
 @supports (animation-timeline: view()) {
+  .portfolio-home main > section,
   .site-shell main > section,
   .site-shell main > article > section,
   .site-shell main .portfolio-section-heading,
@@ -2220,23 +2236,46 @@ button:hover .arrow-shift {
   0%, 100% { background-position: 150% 0; opacity: .24; }
   50% { background-position: -50% 0; opacity: .72; }
 }
+/* OS reduced-motion preference keeps large ambient loops quiet, while preserving
+   short, scroll-controlled movement that responds only to the visitor's scroll. */
 @media (prefers-reduced-motion: reduce) {
-  .site-shell main > section,
-  .site-shell main > article > section,
-  .site-shell main .portfolio-section-heading,
-  .site-shell main .portfolio-lower > *,
-  .site-shell main .portfolio-band,
-  .site-shell main .portfolio-project-card,
-  .site-shell main .project-card,
-  .site-shell main .note-card,
-  .site-shell main .skill-card,
-  .site-shell main .system-card,
-  .site-shell main .glass-card {
-    animation: none !important;
-    filter: none !important;
+  @supports (animation-timeline: view()) {
+    .portfolio-home main > section,
+    .site-shell main > section,
+    .site-shell main > article > section,
+    .site-shell main .portfolio-section-heading,
+    .site-shell main .portfolio-lower > *,
+    .site-shell main .portfolio-band,
+    .site-shell main .portfolio-project-card,
+    .site-shell main .project-card,
+    .site-shell main .note-card,
+    .site-shell main .skill-card,
+    .site-shell main .system-card,
+    .site-shell main .glass-card {
+      animation-name: portfolio-depth-arrive-soft !important;
+      animation-duration: auto !important;
+      animation-timeline: view() !important;
+      animation-range: entry 0% cover 30% !important;
+      animation-iteration-count: 1 !important;
+      filter: none !important;
+    }
+    .saess-project .saess-banner .banner-slab img {
+      animation-name: saess-image-drift-soft !important;
+      animation-duration: auto !important;
+      animation-timeline: view() !important;
+      animation-range: exit 0% exit 100% !important;
+      animation-iteration-count: 1 !important;
+    }
   }
-  .site-shell main .project-banner::after,
-  .site-shell main .banner-tilt::after { animation: none !important; }
+}
+
+@keyframes portfolio-depth-arrive-soft {
+  from { opacity: .76; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes saess-image-drift-soft {
+  from { transform: scale(1.01) translateY(0); }
+  to { transform: scale(1.04) translateY(1%); }
 }
 
 /* Pinch feedback for the optional MediaPipe hand cursor. */
