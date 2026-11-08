@@ -6,7 +6,7 @@ function mountSaessScene(host: HTMLDivElement, renderer: THREE.WebGLRenderer, re
   const scene = new THREE.Scene();
   scene.fog = new THREE.FogExp2(0x030a18, 0.024);
   const camera = new THREE.PerspectiveCamera(42, host.clientWidth / Math.max(host.clientHeight, 1), 0.1, 100);
-  camera.position.set(0, 0.2, window.innerWidth < 720 ? 28 : 15);
+  camera.position.set(0, 0.2, window.innerWidth < 720 ? 28 : 12);
   scene.add(new THREE.AmbientLight(0x5aaaff, 1.8));
   const cyanLight = new THREE.PointLight(0x18bfff, 34, 26);
   cyanLight.position.set(0, 1, 3);
